@@ -5,10 +5,8 @@ using System.Web;
 
 namespace Persistence.KnnProject.Models
 {
-    public class OrderDetail
+    public class OrderDetail : BaseModel
     {
-        public int Id { get; set; }
-
         public int OrderId { get; set; }
 
         public int ProductId { get; set; }

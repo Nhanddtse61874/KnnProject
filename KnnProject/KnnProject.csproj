@@ -253,6 +253,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Business.KnnProject\Business.KnnProject.csproj">
+      <Project>{2d961e61-dc4f-47eb-9ada-bc327a4757ca}</Project>
+      <Name>Business.KnnProject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Persistence.KnnProject\Persistence.KnnProject.csproj">
       <Project>{7934B307-34B6-49BC-9CAA-604F837C80F2}</Project>
       <Name>Persistence.KnnProject</Name>

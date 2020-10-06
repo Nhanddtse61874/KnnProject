@@ -40,6 +40,11 @@ namespace Persistence.KnnProject.Repositories
     {
         private readonly DbContext _dbContext;
         private readonly DbSet<T> _dbSet;
+        private string obj;
+
+        public Repository()
+        {
+        }
 
         public Repository(DbContext dbContext)
         {
@@ -60,11 +65,13 @@ namespace Persistence.KnnProject.Repositories
 
         public List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
-            var result = _dbSet.Where(filter);
+            
+            var result = _dbSet.Where(filter)
+                .Include(obj);
 
             return result.ToList();
         }
-
+        
         public T GetById(int id)
         {
             return _dbSet.Find(id);
@@ -75,5 +82,8 @@ namespace Persistence.KnnProject.Repositories
             _dbSet.Attach(model);
             _dbContext.Entry(model).State = EntityState.Modified;
         }
+
+       
     }
 }
+    

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Persistence.KnnProject.Models;
 
 namespace Persistence.KnnProject.Models
 {
-    public class ImageStorage
+    public class ImageStorage : BaseModel
     {
-
-        public int Id { get; set; }
-
         public string ImageUrl { get; set; }
 
         public string Alt { get; set; }

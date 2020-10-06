@@ -1,4 +1,4 @@
-﻿using KnnProject.Models;
+﻿using Persistence.KnnProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

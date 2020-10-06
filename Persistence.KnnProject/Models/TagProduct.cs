@@ -5,9 +5,8 @@ using System.Web;
 
 namespace Persistence.KnnProject.Models
 {
-    public class TagProduct
+    public class TagProduct : BaseModel
     {
-        public int Id { get; set; }
 
         public int ProductId { get; set; }
 

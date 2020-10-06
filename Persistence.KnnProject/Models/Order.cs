@@ -5,13 +5,11 @@ using System.Web;
 
 namespace Persistence.KnnProject.Models
 {
-    public class Order
+    public class Order : BaseModel
     {
-        public int Id { get; set; }
-
         public int UserId { get; set; }
 
-        public double TotolPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         public string AddressShipping { get; set; }
 

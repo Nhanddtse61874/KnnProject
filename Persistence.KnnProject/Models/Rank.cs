@@ -5,10 +5,8 @@ using System.Web;
 
 namespace Persistence.KnnProject.Models
 {
-    public class Rank
+    public class Rank : BaseModel
     {
-        public int Id{ get; set; }
-
         public string Name { get; set; }
 
         public int Point { get; set; }

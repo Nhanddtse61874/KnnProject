@@ -10,7 +10,7 @@ namespace Persistence.KnnProject.Models.Config
     {
         public SizeProductConfig()
         {
-            ToTable("SizeProduct").HasKey(x => x.id);
+            ToTable("SizeProduct").HasKey(x => x.Id);
         }
     }
 }

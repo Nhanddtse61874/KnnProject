@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+
+
 namespace Persistence.KnnProject.Models
 {
-    public class ColorProduct
+    public class ColorProduct : BaseModel
     {
-        public int Id { get; set; }
-
         public int ProductId { get; set; }
 
         public int ColorId { get; set; }

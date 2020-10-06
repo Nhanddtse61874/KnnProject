@@ -5,10 +5,8 @@ using System.Web;
 
 namespace Persistence.KnnProject.Models
 {
-    public class SizeProduct
+    public class SizeProduct : BaseModel
     {
-        public int id { get; set; }
-
         public int ProductId { get; set; }
 
         public int SizeId { get; set; }

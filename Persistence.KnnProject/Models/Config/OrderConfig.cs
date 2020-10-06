@@ -12,7 +12,7 @@ namespace Persistence.KnnProject.Models.Config
         {
             ToTable("Order").HasKey(x => x.Id);
 
-            Property(x => x.TotolPrice).IsRequired();
+            Property(x => x.TotalPrice).IsRequired();
 
             Property(x => x.AddressShipping).IsRequired().HasMaxLength(255);
 

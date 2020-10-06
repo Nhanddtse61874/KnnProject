@@ -1,4 +1,5 @@
-﻿using KnnProject.Models;
+﻿
+using Persistence.KnnProject.Models;
 using System.Collections.Generic;
 
 namespace KnnProject.ViewModels

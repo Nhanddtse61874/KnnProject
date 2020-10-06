@@ -5,11 +5,8 @@ using System.Web;
 
 namespace Persistence.KnnProject.Models
 {
-    public class Category
+    public class Category : BaseModel
     {
-       
-            public int Id { get; set; }
-
             public string CategoryName { get; set; }
 
             public ICollection<Product> Products { get; set; }
