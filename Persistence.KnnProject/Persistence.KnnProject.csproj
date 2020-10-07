@@ -72,7 +72,7 @@
     <Compile Include="Models\Config\UserConfig.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ImageStorage.cs" />
-    <Compile Include="Models\KnnDbContext.cs" />
+    <Compile Include="DataAccess\KnnDbContext.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Product.cs" />

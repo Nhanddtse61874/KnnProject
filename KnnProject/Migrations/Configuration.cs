@@ -1,18 +1,16 @@
 ﻿namespace KnnProject.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using Persistence.DataAccess.Models;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Persistence.KnnProject.Models.KnnDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<KnnDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Persistence.KnnProject.Models.KnnDbContext context)
+        protected override void Seed(KnnDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

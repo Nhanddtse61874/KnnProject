@@ -1,5 +1,7 @@
 ﻿using KnnProject.ViewModels;
+using Persistence.DataAccess.Models;
 using Persistence.KnnProject.Models;
+using Persistence.KnnProject.Repositories;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -23,25 +25,23 @@ namespace KnnProject.Controllers
 
     public class ProductsController : ApiControllerBase
     {
-        private KnnDbContext db = new KnnDbContext();
+        IUnitOfWork _unit = new UnitOfWork();
+        IRepository<User> _userRepo;
+        IRepository<Category> _cateRepo;
+        private readonly KnnDbContext db = new KnnDbContext();
+
+
+        public ProductsController()
+        {
+            _cateRepo = _unit.Repository<Category>();
+            _userRepo = _unit.Repository<User>();
+        }
 
         // GET: api/Products
-        public IHttpActionResult GetProduct()
+        public IHttpActionResult GetProduct(int pageIndex = 1, int pageElement = 10)
         {
-            var a = new List<Product>
-            {
-                new Product
-                {
-                    Id = 1123,
-                    Category = new Category
-                    {
-                        CategoryName = "test",
-                        Id = 1,
-                    }
-                }
-            };
-
-            return Ok(_mapper.Map<List<ProductViewModel>>(a));
+            var c = _userRepo.GetElementByConditions(x => x.Address == "132");
+            return Ok(c);
         }
 
         // GET: api/Products/5

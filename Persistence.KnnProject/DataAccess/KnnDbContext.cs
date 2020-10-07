@@ -1,9 +1,10 @@
 ﻿
+using Persistence.KnnProject.Models;
 using Persistence.KnnProject.Models.Config;
 using System.Data.Entity;
 
 
-namespace Persistence.KnnProject.Models
+namespace Persistence.DataAccess.Models
 {
     public class KnnDbContext : DbContext
     {

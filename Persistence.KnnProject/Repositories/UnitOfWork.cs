@@ -1,33 +1,30 @@
-﻿using Persistence.KnnProject.Models;
+﻿using Persistence.DataAccess.Models;
+using Persistence.KnnProject.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.KnnProject.Repositories
 {
-    class UnitOfWork<T> : IDisposable where T :BaseModel 
+    //I => interface
+    //lien quan den dependency injection
+    //=> giam su phu. thuoc giua cac class khac nhau
+    public interface IUnitOfWork
+    {
+        IRepository<T> Repository<T>() where T : BaseModel;
+    }
+
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private readonly KnnDbContext dbContext = new KnnDbContext();
-        public Repository<T> res = new Repository<T>();
        
         public UnitOfWork()
         {
 
         }
-        public Repository<T> Repository
-        {
-            get
-            {
 
-                if (this.res == null)
-                {
-                    this.res = new Repository<T>(dbContext);
-                }
-                return res;
-            }
+        //factory method - design pattern
+        public IRepository<T> Repository<T>() where T : BaseModel
+        {
+            return new Repository<T>(dbContext);
         }
 
         public void Save()
@@ -44,6 +41,7 @@ namespace Persistence.KnnProject.Repositories
                 if (disposing)
                 {
                     dbContext.Dispose();
+                    //...
                 }
             }
             this.disposed = true;
@@ -54,6 +52,5 @@ namespace Persistence.KnnProject.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
     }
 }
