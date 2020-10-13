@@ -23,18 +23,21 @@ namespace KnnProject.ViewModels
 
         public bool Status { get; set; }
 
-        public string CategoryName { get; set; }
+      
+    }
 
-        public CategoryViewModel Category { get; set; }
+    public class CreateProductViewModel
+    {
+        public int Name { get; set; }
 
-        public ICollection<ImageStorage> ImageStorages { get; set; }
+        public double Price { get; set; }
 
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public int Quantity { get; set; }
 
-        public ICollection<TagProduct> TagProducts { get; set; }
+        public string Description { get; set; }
 
-        public ICollection<SizeProduct> SizeProducts { get; set; }
+        public int CategoryId { get; set; }
 
-        public ICollection<ColorProduct> ColorProducts { get; set; }
+        public bool Status { get; set; }
     }
 }

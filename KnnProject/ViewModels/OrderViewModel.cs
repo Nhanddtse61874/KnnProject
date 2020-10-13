@@ -2,6 +2,7 @@
 using Persistence.KnnProject.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -22,5 +23,55 @@ namespace KnnProject.ViewModels
         public User User { get; set; }
 
         public ICollection<OrderDetail> Orderdetails { get; set; }
+    }
+    public class CreateOrderViewModel
+    {
+        [Required]
+        public int UserId { get; set; }
+
+
+        [Required]
+        public double TotolPrice { get; set; }
+
+
+        [Required][MaxLength(225)]
+        public string AddressShipping { get; set; }
+
+
+        [Required]
+        public DateTime Date { get; set; }
+
+
+        [Required]
+        public bool Status { get; set; }
+
+    }
+
+    public class UpdateOrderViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+
+        [Required]
+        public int UserId { get; set; }
+
+
+        [Required]
+        public double TotolPrice { get; set; }
+
+
+        [Required]
+        [MaxLength(225)]
+        public string AddressShipping { get; set; }
+
+
+        [Required]
+        public DateTime Date { get; set; }
+
+
+        [Required]
+        public bool Status { get; set; }
+
     }
 }

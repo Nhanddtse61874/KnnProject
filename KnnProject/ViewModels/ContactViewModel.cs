@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Persistence.KnnProject.Models;
@@ -14,6 +15,46 @@ namespace KnnProject.ViewModels
 
         public int Phone { get; set; }
 
+        public string Description { get; set; }
+    }
+
+    public class CreateContactViewModel
+    {
+        [Required, MaxLength(255)]
+        public string Name { get; set; }
+
+
+        [Required, MaxLength(255)]
+        public string Address { get; set; }
+
+
+        [Required]
+        public int Phone { get; set; }
+
+
+        [Required, MaxLength(255)]
+        public string Description { get; set; }
+    }
+
+    public class UpdateContactViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+
+        [Required, MaxLength(255)]
+        public string Name { get; set; }
+
+
+        [Required, MaxLength(255)]
+        public string Address { get; set; }
+
+
+        [Required]
+        public int Phone { get; set; }
+
+
+        [Required, MaxLength(255)]
         public string Description { get; set; }
     }
 }

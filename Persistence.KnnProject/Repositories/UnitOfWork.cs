@@ -4,12 +4,11 @@ using System;
 
 namespace Persistence.KnnProject.Repositories
 {
-    //I => interface
-    //lien quan den dependency injection
-    //=> giam su phu. thuoc giua cac class khac nhau
     public interface IUnitOfWork
     {
         IRepository<T> Repository<T>() where T : BaseModel;
+
+        void Save();
     }
 
     public class UnitOfWork : IDisposable, IUnitOfWork
@@ -18,14 +17,13 @@ namespace Persistence.KnnProject.Repositories
        
         public UnitOfWork()
         {
-
         }
 
-        //factory method - design pattern
+        
         public IRepository<T> Repository<T>() where T : BaseModel
         {
             return new Repository<T>(dbContext);
-        }
+        }//factory method - design pattern
 
         public void Save()
         {
@@ -54,3 +52,7 @@ namespace Persistence.KnnProject.Repositories
         }
     }
 }
+
+//I => interface
+//lien quan den dependency injection
+//=> giam su phu. thuoc giua cac class khac nhau

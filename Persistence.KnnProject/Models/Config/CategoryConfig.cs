@@ -8,12 +8,15 @@ namespace Persistence.KnnProject.Models.Config
         {
             ToTable("Category").HasKey(x => x.Id);
 
-            Property(x => x.CategoryName).IsRequired().HasMaxLength(255);
+            Property(x => x.Name).IsRequired().HasMaxLength(255);
 
             HasMany(x => x.Products)
                 .WithRequired(x => x.Category)
                 .HasForeignKey(x => x.CategoryId);
 
+            HasOptional(c => c.Parent)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(c => c.ParentId);
         }
     }
 }

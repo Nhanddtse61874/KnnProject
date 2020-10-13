@@ -1,5 +1,5 @@
 ﻿using Persistence.KnnProject.Models;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace KnnProject.ViewModels
 {
@@ -18,5 +18,53 @@ namespace KnnProject.ViewModels
         public Order Order { get; set; }
 
         public Product Product { get; set; }
+    }
+
+    public class CreateOrderDetailViewModel
+    {
+        [Required]
+        public int OrderId { get; set; }
+
+
+        [Required]
+        public int ProductId { get; set; }
+
+
+        [Required]
+        public double CurrentPrice { get; set; }
+
+
+        [Required]
+        public int Quantity { get; set; }
+
+
+        [Required]
+        public double TotalLine { get; set; }
+    }
+
+    public class UpdateOrderDetailViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+
+        [Required]
+        public int OrderId { get; set; }
+
+
+        [Required]
+        public int ProductId { get; set; }
+
+
+        [Required]
+        public double CurrentPrice { get; set; }
+
+
+        [Required]
+        public int Quantity { get; set; }
+
+
+        [Required]
+        public double TotalLine { get; set; }
     }
 }

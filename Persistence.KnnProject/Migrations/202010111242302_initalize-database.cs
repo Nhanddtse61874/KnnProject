@@ -1,9 +1,9 @@
-﻿namespace KnnProject.Migrations
+﻿namespace Persistence.KnnProject.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class knnDbContext : DbMigration
+    public partial class initalizedatabase : DbMigration
     {
         public override void Up()
         {
@@ -12,9 +12,12 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        CategoryName = c.String(nullable: false, maxLength: 255),
+                        Name = c.String(nullable: false, maxLength: 255),
+                        ParentId = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Category", t => t.ParentId)
+                .Index(t => t.ParentId);
             
             CreateTable(
                 "dbo.Product",
@@ -36,11 +39,11 @@
                 "dbo.ColorProduct",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         ProductId = c.Int(nullable: false),
                         ColorId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.id)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Color", t => t.ColorId, cascadeDelete: true)
                 .ForeignKey("dbo.Product", t => t.ProductId, cascadeDelete: true)
                 .Index(t => t.ProductId)
@@ -91,7 +94,7 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         UserId = c.Int(nullable: false),
-                        TotolPrice = c.Double(nullable: false),
+                        TotalPrice = c.Double(nullable: false),
                         AddressShipping = c.String(nullable: false, maxLength: 255),
                         Date = c.DateTime(nullable: false),
                         Status = c.Boolean(nullable: false),
@@ -144,11 +147,11 @@
                 "dbo.SizeProduct",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         ProductId = c.Int(nullable: false),
                         SizeId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.id)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Size", t => t.SizeId, cascadeDelete: true)
                 .ForeignKey("dbo.Product", t => t.ProductId, cascadeDelete: true)
                 .Index(t => t.ProductId)
@@ -215,6 +218,7 @@
             DropForeignKey("dbo.ImageStorage", "ProductId", "dbo.Product");
             DropForeignKey("dbo.ColorProduct", "ProductId", "dbo.Product");
             DropForeignKey("dbo.ColorProduct", "ColorId", "dbo.Color");
+            DropForeignKey("dbo.Category", "ParentId", "dbo.Category");
             DropIndex("dbo.TagProduct", new[] { "TagId" });
             DropIndex("dbo.TagProduct", new[] { "ProductId" });
             DropIndex("dbo.SizeProduct", new[] { "SizeId" });
@@ -228,6 +232,7 @@
             DropIndex("dbo.ColorProduct", new[] { "ColorId" });
             DropIndex("dbo.ColorProduct", new[] { "ProductId" });
             DropIndex("dbo.Product", new[] { "CategoryId" });
+            DropIndex("dbo.Category", new[] { "ParentId" });
             DropTable("dbo.Contact");
             DropTable("dbo.Tag");
             DropTable("dbo.TagProduct");

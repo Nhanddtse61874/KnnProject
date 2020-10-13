@@ -16,4 +16,9 @@ namespace KnnProject.ViewModels
 
         public Tag Tag { get; set; }
     }
+
+    public class CreateTagProductViewModel
+    {
+
+    }
 }

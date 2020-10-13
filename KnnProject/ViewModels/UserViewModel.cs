@@ -1,6 +1,7 @@
 ﻿using Persistence.KnnProject.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -31,5 +32,71 @@ namespace KnnProject.ViewModels
         public Rank Rank { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+    }
+
+    public class CreateUserViewModel
+    {
+
+        [Required, MaxLength(255)]
+        public string UserName { get; set; }
+
+        [Required, MaxLength(255)]
+        public string PassWord { get; set; }
+
+        [Required]
+        public int RankId { get; set; }
+
+        [Required]
+        public int RoleId { get; set; }
+
+        [Required, MaxLength(255)]
+        public string Name { get; set; }
+
+        [Required]
+        public int Phone { get; set; }
+
+        [Required, MaxLength(255)]
+        public string Address { get; set; }
+
+        [Required]
+        public bool Gender { get; set; }
+
+        [Required]
+        public double Point { get; set; }
+
+    }
+
+    public class UpdateUserViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+        [Required, MaxLength(255)]
+        public string UserName { get; set; }
+
+        [Required, MaxLength(255)]
+        public string PassWord { get; set; }
+
+        [Required]
+        public int RankId { get; set; }
+
+        [Required]
+        public int RoleId { get; set; }
+
+        [Required, MaxLength(255)]
+        public string Name { get; set; }
+
+        [Required]
+        public int Phone { get; set; }
+
+        [Required, MaxLength(255)]
+        public string Address { get; set; }
+
+        [Required]
+        public bool Gender { get; set; }
+
+        [Required]
+        public double Point { get; set; }
+
     }
 }

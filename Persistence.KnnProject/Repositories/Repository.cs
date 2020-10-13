@@ -8,42 +8,23 @@ using System.Linq.Expressions;
 
 namespace Persistence.KnnProject.Repositories
 {
-    /// EF supprot 3 loại load data
-    /// lazy loading, eager loading, explicit loading
-    /// lazy loading: support load data khi gọi tới
-
-    ///2 loại repository 
-    ///=> specific repository => tức là repository cho 1 object cụ thể
-    ///=> generic repository => tức là repository dành cho tất cả các model
-    ///ở đây dùng generic
-    ///
-    ///TODO: 
-    ///1. Xem video huong dan repository vs unitofwork
-    ///2. Sua? lai repository de support phân trang, sắp xếp
-    ///3. Implement unit of work
-    ///
-    ///4. Tìm cách sử dụng Include trong repository (optional)
-    ///   -> mình đang dùng eager loading
     public interface IRepository<T> where T : BaseModel
     {
-        List<T> GetAll(
+        IList<T> GetAll(
+            Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, 
             int? pageIndex = null, int? pageSize = null, 
             params Expression<Func<T, object>>[] includeProperties);
 
-        List<T> GetElementsByConditions(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties);
-
         T GetById(int id);
 
-        T GetElementByConditions(Expression<Func<T, bool>> filter = null);
+        T Get(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties);
 
         void Create(T model);
 
         void Update(T model);
 
         void Delete(int id);
-
-       
     }
 
     public class Repository<T> : IRepository<T> where T : BaseModel
@@ -66,24 +47,29 @@ namespace Persistence.KnnProject.Repositories
             _dbSet.Add(model);
         }
 
+        public void Update(T model)
+        {
+            _dbSet.Attach(model);
+            _dbContext.Entry(model).State = EntityState.Modified;
+        }
+
         public void Delete(int id)
         {
             T entityToDelete = _dbSet.Find(id);
             _dbSet.Remove(entityToDelete);
         }
 
-        public List<T> GetAll(
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+        public IList<T> GetAll(Expression<Func<T, bool>> filter = null, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, 
             int? pageIndex = null, int? pageSize = null,
             params Expression<Func<T, object>>[] includeProperties)
         {
-            //doan code nay` dung` chung nhieu` cho~ => thong nhat nhung thằng xài nó lại
-            IQueryable<T> result = _dbSet;
-            foreach (var includeProperty in includeProperties)
-            {
-                result = result.Include(includeProperty);
-            }
+            var result = IncludeProperties(includeProperties);
             
+            if (filter != null)
+            {
+                result = result.Where(filter);
+            }
             if (orderBy != null)
             {
                 result = orderBy(result);
@@ -96,42 +82,39 @@ namespace Persistence.KnnProject.Repositories
             return result.ToList();
         }
 
-        public List<T> GetElementsByConditions(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties)
+        public T GetById(int id) => _dbSet.Find(id);
+
+        public T Get(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties)
+        {
+            var result = IncludeProperties();
+            return result.FirstOrDefault(filter);
+        }
+
+        private IQueryable<T> IncludeProperties(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> result = _dbSet;
-            
-            foreach (var includeProperty in includeProperties) 
+            foreach (var includeProperty in includeProperties)
             {
                 result = result.Include(includeProperty);
             }
-
-            if (filter != null)
-            {
-                result = result.Where(filter);
-            }
-            
-
-            return result.ToList();
+            return result;
         }
-        
-
-        public T GetById(int id)
-        {
-            return _dbSet.Find(id);
-        }
-
-        
-        public void Update(T model)
-        {
-            _dbSet.Attach(model);
-            _dbContext.Entry(model).State = EntityState.Modified;
-        }
-
-        public T GetElementByConditions(Expression<Func<T, bool>> filter = null)
-        {
-
-            throw new NotImplementedException();
-        }
-
     }
 }
+
+/// EF supprot 3 loại load data
+/// lazy loading, eager loading, explicit loading
+/// lazy loading: support load data khi gọi tới
+
+///2 loại repository 
+///=> specific repository => tức là repository cho 1 object cụ thể
+///=> generic repository => tức là repository dành cho tất cả các model
+///ở đây dùng generic
+///
+///TODO: 
+///1. Xem video huong dan repository vs unitofwork
+///2. Sua? lai repository de support phân trang, sắp xếp
+///3. Implement unit of work
+///
+///4. Tìm cách sử dụng Include trong repository (optional)
+///   -> mình đang dùng eager loading
