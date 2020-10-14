@@ -21,7 +21,8 @@ namespace KnnProject.Controllers
             => Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.Get()));
 
         [HttpGet]
-        public IHttpActionResult GetByRank(int rankId)
+        [Route("api/User/{rankId}")]
+        public IHttpActionResult Get(int rankId)
             => Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.GetByRank(rankId)));
 
 

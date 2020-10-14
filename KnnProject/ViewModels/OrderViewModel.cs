@@ -45,6 +45,7 @@ namespace KnnProject.ViewModels
         [Required]
         public bool Status { get; set; }
 
+        public IEnumerable<OrderDetailViewModel> OrderDetails { get; set; }
     }
 
     public class UpdateOrderViewModel

@@ -1,8 +1,8 @@
 ﻿using Business.KnnProject.Services;
 using KnnProject.ViewModels;
-using Ninject;
 using Persistence.KnnProject.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace KnnProject.Controllers
@@ -17,8 +17,25 @@ namespace KnnProject.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Get() 
-            => Ok(_mapper.Map<IEnumerable<CategoryViewModel>>(_categoryService.GetAllCategory()));
+        public IHttpActionResult Get()
+        {
+            var result = _mapper.Map<IEnumerable<CategoryViewModel>>(_categoryService.GetAllCategory());
+            //int totalCategories = result.Count();
+            //int totalPages = totalCategories / 2;
+
+            return Ok(result);
+            //return Ok(new
+            //{
+            //    data = result,
+            //    pager = new
+            //    {
+            //        pageIndex = 1,
+            //        pageSize = 3,
+            //        totalPages,
+            //        totalResults = totalCategories
+            //    }
+            //});
+        }
 
         [HttpPost]
         public IHttpActionResult Post(CreateCategoryViewModel category)
@@ -51,6 +68,6 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        
+
     }
 }

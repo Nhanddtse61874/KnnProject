@@ -19,8 +19,12 @@ namespace KnnProject.Controllers
                 cfg.CreateMap<Category, CategoryViewModel>();
                 cfg.CreateMap<CreateCategoryViewModel, Category>();
                 cfg.CreateMap<ModifiedCategoryViewModel, Category>();
-
+                
+                cfg.CreateMap<ColorProduct, ColorViewModel>()
+                    .ForMember(x => x.Id, src => src.MapFrom(dest => dest.Color.Id))
+                    .ForMember(x => x.Name, src => src.MapFrom(dest => dest.Color.Name));
                 cfg.CreateMap<Color, ColorViewModel>();
+                
                 cfg.CreateMap<CreateColorViewModel, Color>();
                 cfg.CreateMap<UpdateColorViewModel, Color>();
 
@@ -60,18 +64,20 @@ namespace KnnProject.Controllers
                 cfg.CreateMap<CreateUserViewModel, User>();
                 cfg.CreateMap<UpdateUserViewModel, User>();
 
-                cfg.CreateMap<ColorProductViewModel, ColorProduct>().ReverseMap();
+                
                 cfg.CreateMap<ContactViewModel, Contact>().ReverseMap();
                 cfg.CreateMap<ImageStorageViewModel, ImageStorage>().ReverseMap();
                 cfg.CreateMap<OrderViewModel, Order>().ReverseMap();
                 cfg.CreateMap<OrderDetailViewModel, OrderDetail>().ReverseMap();
-                cfg.CreateMap<Product, ProductViewModel>().ReverseMap();
+                cfg.CreateMap<Product, ProductViewModel>()
+                    .ForMember(x => x.Colors, src => src.MapFrom(dest => dest.ColorProducts))
+                    .ReverseMap();
                 cfg.CreateMap<RankViewModel, Rank>().ReverseMap();
                 cfg.CreateMap<RoleViewModel, Role>().ReverseMap();
                 cfg.CreateMap<SizeViewModel, Size>().ReverseMap();
-                cfg.CreateMap<SizeProductViewModel, SizeProduct>().ReverseMap();
+                
                 cfg.CreateMap<TagViewModel, Tag>().ReverseMap();
-                cfg.CreateMap<TagProductViewModel, TagProduct>().ReverseMap();
+                
                 cfg.CreateMap<UserViewModel, User>().ReverseMap();
             });
 

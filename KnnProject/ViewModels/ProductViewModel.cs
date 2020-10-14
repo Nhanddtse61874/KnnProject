@@ -23,7 +23,9 @@ namespace KnnProject.ViewModels
 
         public bool Status { get; set; }
 
-      
+        public IEnumerable<ColorViewModel> Colors { get; set; }
+
+
     }
 
     public class CreateProductViewModel

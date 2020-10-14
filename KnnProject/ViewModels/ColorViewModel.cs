@@ -9,9 +9,9 @@ namespace KnnProject.ViewModels
 {
     public class ColorViewModel
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
 
-        public ICollection<ColorProduct> ColorProducts { get; set; }
+        public string Name { get; set; }
     }
 
     public class CreateColorViewModel

@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ExpressionExtension.cs" />
     <Compile Include="Migrations\202010111242302_initalize-database.cs" />
     <Compile Include="Migrations\202010111242302_initalize-database.designer.cs">
       <DependentUpon>202010111242302_initalize-database.cs</DependentUpon>

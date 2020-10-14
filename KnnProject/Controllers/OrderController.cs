@@ -15,9 +15,9 @@ namespace KnnProject.Controllers
             _service = new OrderService();
         }
 
-        [HttpGet]
-        public IHttpActionResult GetByUser(int userId)
-                => Ok(_mapper.Map<IEnumerable<OrderViewModel>>(_service.GetByUser(userId)));
+        //[HttpGet]
+        //public IHttpActionResult GetByUser(int userId)
+        //        => Ok(_mapper.Map<IEnumerable<OrderViewModel>>(_service.GetByUser(userId)));
 
 
         [HttpGet]

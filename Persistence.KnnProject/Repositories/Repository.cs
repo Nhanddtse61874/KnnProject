@@ -1,4 +1,5 @@
-﻿using Persistence.DataAccess.Models;
+﻿using Business.KnnProject;
+using Persistence.DataAccess.Models;
 using Persistence.KnnProject.Models;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace Persistence.KnnProject.Repositories
             int? pageIndex = null, int? pageSize = null,
             params Expression<Func<T, object>>[] includeProperties)
         {
-            var result = IncludeProperties(includeProperties);
+            var result = IncludeProperties(includeProperties).AsExpandable();
             
             if (filter != null)
             {
