@@ -36,8 +36,8 @@ namespace KnnProject.Controllers
         //24
         //36
         [HttpGet]
-        public IHttpActionResult Get()
-            => Ok(_mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetAll()));   
+        public IHttpActionResult Get(int? pageIndex, int? pageSize)
+            => Ok(_mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetAll(pageIndex, pageSize)));   
 
 
         [HttpPost]
@@ -67,6 +67,13 @@ namespace KnnProject.Controllers
         {
             var result = _mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetByFilter(id, sizeId, tagId, categoryId));
             return Ok(result);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
+        {
+            _productService.Delete(id);
+            return Ok();
         }
 
     }

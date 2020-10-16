@@ -8,6 +8,8 @@ namespace Business.KnnProject.Services
     {
         IList<Category> GetAllCategory();
 
+        Category GetById(int id);
+
         void Create(Category newCategory);
 
         void Update(Category modifiedCategory);
@@ -52,5 +54,12 @@ namespace Business.KnnProject.Services
             _repository.Delete(categoryId);
             _unitOfWork.Save();
         }
+
+        public Category GetById(int categoryId)
+        {
+            return _repository.GetById(categoryId);
+            
+        }
+
     }
 }

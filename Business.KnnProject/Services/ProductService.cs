@@ -21,7 +21,7 @@ namespace Business.KnnProject.Services
 
         void Delete(int ProductId);
 
-        IList<Product> GetAll();
+        IList<Product> GetAll(int? pageIndex, int? pageSize);
 
         IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId);
     }
@@ -64,10 +64,10 @@ namespace Business.KnnProject.Services
             _repository.Update(modifiedProduct);
             _unitOfWork.Save();
         }
-        public IList<Product> GetAll()
+        public IList<Product> GetAll(int? pageIndex, int? pageSize)
         {
 
-            return _repository.GetAll(orderBy: x => x.OrderBy(y => y.Id) , pageIndex : 1, pageSize : 10,
+            return _repository.GetAll(orderBy: x => x.OrderBy(y => y.Id) , pageIndex : pageIndex, pageSize : pageSize,
              //  filter: x =>
              //   (!colorId.HasValue || x.ColorProducts.Select(y => y.ColorId).Contains(colorId ?? -1))
              //&& (!sizeId.HasValue) || x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1),
