@@ -7,13 +7,13 @@ namespace Persistence.KnnProject.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class initalizedatabase : IMigrationMetadata
+    public sealed partial class initdatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initalizedatabase));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initdatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "202010111242302_initalize-database"; }
+            get { return "202010151226264_init-database"; }
         }
         
         string IMigrationMetadata.Source

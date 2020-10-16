@@ -69,9 +69,21 @@ namespace KnnProject.Controllers
                 cfg.CreateMap<ImageStorageViewModel, ImageStorage>().ReverseMap();
                 cfg.CreateMap<OrderViewModel, Order>().ReverseMap();
                 cfg.CreateMap<OrderDetailViewModel, OrderDetail>().ReverseMap();
+
+
                 cfg.CreateMap<Product, ProductViewModel>()
                     .ForMember(x => x.Colors, src => src.MapFrom(dest => dest.ColorProducts))
+                    .ForMember(x => x.Tags, src => src.MapFrom(dest => dest.TagProducts))
+                    .ForMember(x => x.Sizes, src => src.MapFrom(dest => dest.SizeProducts))
                     .ReverseMap();
+               
+                cfg.CreateMap<CreateProductViewModel, Product>();
+                cfg.CreateMap<UpdateProductViewModel, Product>();
+                    //.ForMember(x => x.ColorProducts, src => src.MapFrom(dest => dest.Colors))
+                    //.ForMember(x => x.TagProducts, src => src.MapFrom(dest => dest.Tags))
+                    //.ForMember(x => x.SizeProducts, src => src.MapFrom(dest => dest.Sizes)).ReverseMap();
+
+
                 cfg.CreateMap<RankViewModel, Rank>().ReverseMap();
                 cfg.CreateMap<RoleViewModel, Role>().ReverseMap();
                 cfg.CreateMap<SizeViewModel, Size>().ReverseMap();

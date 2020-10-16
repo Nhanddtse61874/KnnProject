@@ -22,7 +22,9 @@ namespace Persistence.KnnProject.Models.Config
 
             Property(x => x.Status).IsRequired();
 
-            HasMany(x => x.ImageStorages)
+            Property(x => x.Date).IsRequired();
+
+        HasMany(x => x.ImageStorages)
                 .WithRequired(x => x.Product)
                 .HasForeignKey(x => x.ProductId);
 

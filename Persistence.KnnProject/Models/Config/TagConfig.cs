@@ -14,9 +14,9 @@ namespace Persistence.KnnProject.Models.Config
 
             Property(x => x.Name).IsRequired().HasMaxLength(20);
 
-            HasMany(x => x.TagProducts)
-                .WithRequired(x => x.Tag)
-                .HasForeignKey(x => x.TagId);
+            //HasMany(x => x.TagProducts)
+            //    .WithRequired(x => x.Tag)
+            //    .HasForeignKey(x => x.TagId);
         }
     }
 }

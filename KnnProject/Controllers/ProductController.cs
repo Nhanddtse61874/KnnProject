@@ -1,6 +1,8 @@
-﻿using Business.KnnProject.Services;
+﻿using AutoMapper;
+using Business.KnnProject.Services;
 using KnnProject.ViewModels;
 using Persistence.KnnProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Web.Http;
 
@@ -36,5 +38,36 @@ namespace KnnProject.Controllers
         [HttpGet]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetAll()));   
+
+
+        [HttpPost]
+        public IHttpActionResult Post(CreateProductViewModel newProduct)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            _productService.Create(_mapper.Map<Product>(newProduct));
+            return Ok();
+        }
+
+        [HttpPut] 
+        public IHttpActionResult Put(UpdateProductViewModel modifiedModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            _productService.Update(_mapper.Map<Product>(modifiedModel));
+            return Ok();
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetByFilter(int? id, int? sizeId, int? tagId, int? categoryId)
+        {
+            var result = _mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetByFilter(id, sizeId, tagId, categoryId));
+            return Ok(result);
+        }
+
     }
 }

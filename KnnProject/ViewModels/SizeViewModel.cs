@@ -9,12 +9,15 @@ namespace KnnProject.ViewModels
 {
     public class SizeViewModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<SizeProduct> SizeProducts { get; set; }
+        
     }
     public class CreateSizeViewModel
     {
+
+        public int Id { get; set; }
         [Required][MaxLength(255)]
         public string Name { get; set; }
     }

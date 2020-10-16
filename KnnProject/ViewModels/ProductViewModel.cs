@@ -23,14 +23,20 @@ namespace KnnProject.ViewModels
 
         public bool Status { get; set; }
 
+        public DateTime DateTime { get; set; }
+
         public IEnumerable<ColorViewModel> Colors { get; set; }
+
+        public IEnumerable<TagViewModel> Tags { get; set; }
+
+        public IEnumerable<SizeViewModel> Sizes { get; set; }
 
 
     }
 
     public class CreateProductViewModel
     {
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         public double Price { get; set; }
 
@@ -41,5 +47,38 @@ namespace KnnProject.ViewModels
         public int CategoryId { get; set; }
 
         public bool Status { get; set; }
+
+        public DateTime DateTime { get; set; }
+
+        public IEnumerable<ColorViewModel> Colors { get; set; }
+
+        public IEnumerable<TagViewModel> Tags { get; set; }
+
+        public IEnumerable<SizeViewModel> Sizes { get; set; }
+
+    }
+
+    public class UpdateProductViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public double Price { get; set; }
+
+        public int Quantity { get; set; }
+
+        public string Description { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public bool Status { get; set; }
+
+        public DateTime DateTime { get; set; }
+
+        public IEnumerable<ColorViewModel> Colors { get; set; }
+
+        public IEnumerable<TagViewModel> Tags { get; set; }
+
+        public IEnumerable<SizeViewModel> Sizes { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Persistence.KnnProject.Models
 {
@@ -17,6 +18,8 @@ namespace Persistence.KnnProject.Models
         public bool Status { get; set; }
 
         public Category Category { get; set; }
+
+        public DateTime Date{ get; set; }
 
         public ICollection<ImageStorage> ImageStorages { get; set; }
 

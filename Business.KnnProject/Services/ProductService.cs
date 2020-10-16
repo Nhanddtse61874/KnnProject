@@ -22,6 +22,8 @@ namespace Business.KnnProject.Services
         void Delete(int ProductId);
 
         IList<Product> GetAll();
+
+        IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId);
     }
     public class ProductService : ServiceBase, IProductService
     {
@@ -33,6 +35,7 @@ namespace Business.KnnProject.Services
         }
         public void Create(Product newProduct)
         {
+            newProduct.Date = DateTime.Now;
             _repository.Create(newProduct);
             _unitOfWork.Save();
         }
@@ -57,22 +60,43 @@ namespace Business.KnnProject.Services
 
         public void Update(Product modifiedProduct)
         {
+            modifiedProduct.Date = DateTime.Now;
             _repository.Update(modifiedProduct);
             _unitOfWork.Save();
         }
         public IList<Product> GetAll()
         {
-            int? sizeId = null;
 
-            int? colorId = null;
-
-            return _repository.GetAll(
+            return _repository.GetAll(orderBy: x => x.OrderBy(y => y.Id) , pageIndex : 1, pageSize : 10,
              //  filter: x =>
              //   (!colorId.HasValue || x.ColorProducts.Select(y => y.ColorId).Contains(colorId ?? -1))
              //&& (!sizeId.HasValue) || x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1),
                includeProperties: x => x.ColorProducts);
         }
+        public IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId)
+        {
+            Expression<Func<Product, bool>> filter = x => true;
 
+            if (colorId.HasValue)
+            {
+                filter = filter.And(x => x.ColorProducts.Select(y => y.ColorId).Contains(colorId ?? -1));
+            }
+            if (sizeId.HasValue)
+            {
+                filter = filter.And(x => x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1));
+            }
+
+            if (tagId.HasValue)
+            {
+                filter = filter.And(x => x.TagProducts.Select(y => y.TagId).Contains(tagId ?? -1));
+            }
+
+            if (categoryId.HasValue)
+            {
+                filter = filter.And(x => x.CategoryId == categoryId);
+            }
+            return _repository.GetAll(filter);
+        }
         //public IList<Product> GetAll2()
         //{
         //    int? sizeId = null;
