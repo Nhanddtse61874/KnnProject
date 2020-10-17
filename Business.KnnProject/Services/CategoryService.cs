@@ -18,6 +18,7 @@ namespace Business.KnnProject.Services
     }
     public class CategoryService : ServiceBase, ICategoryService
     {
+        private IProductService _productService = new ProductService();
         private readonly IRepository<Category> _repository;
 
         public CategoryService()
@@ -32,6 +33,8 @@ namespace Business.KnnProject.Services
             {
                 var sub = _repository.GetAll(x => x.ParentId == parent.Id);
                 parent.SubCategories = sub;
+                var subProduct = _productService.GetByCategory(parent.Id);
+                parent.Products = subProduct;
             }
 
             return result;      

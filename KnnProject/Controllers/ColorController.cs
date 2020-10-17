@@ -5,6 +5,7 @@ using System.Web.Http;
 
 namespace KnnProject.Controllers
 {
+    [RoutePrefix("api/color-management")]
     public class ColorController : ApiControllerBase
     {
         private readonly IColorService _service;
@@ -14,11 +15,11 @@ namespace KnnProject.Controllers
             _service = new ColorService();
         }
 
-        [HttpGet]
+        [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<ColorViewModel>>(_service.GetAllColor()));
 
-        [HttpPost] 
+        [HttpPost, Route] 
         public IHttpActionResult Post(CreateColorViewModel colormodel)
         {
             if (!ModelState.IsValid)
@@ -28,14 +29,15 @@ namespace KnnProject.Controllers
             _service.Create(_mapper.Map<Persistence.KnnProject.Models.Color>(colormodel));
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete, Route]
         public IHttpActionResult Delete(int colorId)
         {
             _service.Delete(colorId);
             return Ok();
         }
 
-        [HttpPut] public IHttpActionResult Put(UpdateColorViewModel modifiedModel)
+        [HttpPut, Route] 
+        public IHttpActionResult Put(UpdateColorViewModel modifiedModel)
         {
             if (!ModelState.IsValid)
             {

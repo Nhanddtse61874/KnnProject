@@ -20,9 +20,7 @@ namespace KnnProject.ViewModels
 
         public bool Status { get; set; }
 
-        public User User { get; set; }
-
-        public ICollection<OrderDetail> Orderdetails { get; set; }
+        public ICollection<OrderDetailViewModel> Orderdetails { get; set; }
     }
     public class CreateOrderViewModel
     {
@@ -73,6 +71,8 @@ namespace KnnProject.ViewModels
 
         [Required]
         public bool Status { get; set; }
+
+        public IEnumerable<OrderDetailViewModel> OrderDetails { get; set; }
 
     }
 }

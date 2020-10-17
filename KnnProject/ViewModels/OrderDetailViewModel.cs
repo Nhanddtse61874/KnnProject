@@ -5,8 +5,6 @@ namespace KnnProject.ViewModels
 {
     public class OrderDetailViewModel
     {
-        public int OrderId { get; set; }
-
         public int ProductId { get; set; }
 
         public double CurrentPrice { get; set; }
@@ -18,10 +16,6 @@ namespace KnnProject.ViewModels
 
     public class CreateOrderDetailViewModel
     {
-        [Required]
-        public int OrderId { get; set; }
-
-
         [Required]
         public int ProductId { get; set; }
 

@@ -22,7 +22,7 @@ namespace Persistence.KnnProject.Models.Config
 
             Property(x => x.Status).IsRequired();
 
-            Property(x => x.Date).IsRequired();
+            Property(x => x.CreatedDate).IsRequired();
 
         HasMany(x => x.ImageStorages)
                 .WithRequired(x => x.Product)

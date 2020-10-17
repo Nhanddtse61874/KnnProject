@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace KnnProject.Controllers
 {
+    [RoutePrefix("api/role-management")]
     public class RoleController : ApiControllerBase
     {
         private readonly IRoleService _service;
@@ -15,11 +16,11 @@ namespace KnnProject.Controllers
             _service = new RoleService();
         }
 
-        [HttpGet]
+        [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<RoleViewModel>>(_service.Get()));
 
-        [HttpPost]
+        [HttpPost, Route]
         public IHttpActionResult Post(CreateRoleViewModel newModel)
         {
             if (!ModelState.IsValid)
@@ -31,7 +32,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Route]
         public IHttpActionResult Put(UpdateRoleViewModel modifiedModel)
         {
             if (!ModelState.IsValid)
@@ -43,7 +44,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Route]
         public IHttpActionResult Delete(int roleId) 
         {
             _service.Delete(roleId);

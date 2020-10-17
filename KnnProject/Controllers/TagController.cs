@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace KnnProject.Controllers
 {
+    [RoutePrefix("api/tag-management")]
     public class TagController : ApiControllerBase
     {
         private readonly ITagService _tagService;
@@ -19,11 +20,11 @@ namespace KnnProject.Controllers
             _tagService = new TagService();
         }
 
-        [HttpGet]
+        [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<TagViewModel>>(_tagService.GetAllTag()));
       
-        [HttpPost]
+        [HttpPost, Route]
         public IHttpActionResult Post(CreateTagViewModel tag)
         {
             if (!ModelState.IsValid)
@@ -36,7 +37,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpPut] 
+        [HttpPut, Route] 
         public IHttpActionResult Put(UpdateTagViewModel tag)
         {
             if (!ModelState.IsValid)
@@ -47,7 +48,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Route]
         public IHttpActionResult Delete(int tagId)
         {
             if (!ModelState.IsValid)

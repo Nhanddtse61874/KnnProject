@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace KnnProject.Controllers
 {
+    [RoutePrefix("api/category-management")]
     public class CategoryController : ApiControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -16,6 +17,7 @@ namespace KnnProject.Controllers
             _categoryService = new CategoryService();
         }
 
+        [Route]
         [HttpGet]
         public IHttpActionResult Get()
         {
@@ -37,7 +39,7 @@ namespace KnnProject.Controllers
             //});
         }
 
-        [HttpPost]
+        [HttpPost, Route]
         public IHttpActionResult Post(CreateCategoryViewModel category)
         {
             if (!ModelState.IsValid)
@@ -49,7 +51,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Route]
         public IHttpActionResult Put(ModifiedCategoryViewModel category)
         {
             if (!ModelState.IsValid)
@@ -61,7 +63,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Route]
         public IHttpActionResult Delete(int categoryId)
         {
             _categoryService.Delete(categoryId);
@@ -69,7 +71,7 @@ namespace KnnProject.Controllers
         }
 
 
-        [HttpGet] 
+        [HttpGet][Route("{categoryId}")] 
         public IHttpActionResult GetById(int id)
         
            => Ok(_mapper.Map<Category>(_categoryService.GetById(id)));

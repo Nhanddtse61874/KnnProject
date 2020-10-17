@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace KnnProject.Controllers
 {
+    [RoutePrefix("api/rank-management")]
     public class RankController : ApiControllerBase
     {
         private readonly IRankService _service;
@@ -15,11 +16,11 @@ namespace KnnProject.Controllers
             _service = new RankService();
         }
 
-        [HttpGet]
+        [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<RankViewModel>>(_service.Get()));
 
-        [HttpPost]
+        [HttpPost, Route]
         public IHttpActionResult Post(CreateRankViewModel newModel)
         {
             if (!ModelState.IsValid)
@@ -31,7 +32,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Route]
         public IHttpActionResult Put(UpdateRankViewModel modifiedModel)
         {
             if (!ModelState.IsValid)
@@ -43,7 +44,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Route]
         public IHttpActionResult Delete(int rankId)
         {
             _service.Delete(rankId);

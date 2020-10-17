@@ -71,9 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ExpressionExtension.cs" />
-    <Compile Include="Migrations\202010151226264_init-database.cs" />
-    <Compile Include="Migrations\202010151226264_init-database.designer.cs">
-      <DependentUpon>202010151226264_init-database.cs</DependentUpon>
+    <Compile Include="Migrations\202010170256087_initDb.cs" />
+    <Compile Include="Migrations\202010170256087_initDb.designer.cs">
+      <DependentUpon>202010170256087_initDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -117,8 +117,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202010151226264_init-database.resx">
-      <DependentUpon>202010151226264_init-database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202010170256087_initDb.resx">
+      <DependentUpon>202010170256087_initDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

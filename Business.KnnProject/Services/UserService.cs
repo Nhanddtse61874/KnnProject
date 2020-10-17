@@ -10,6 +10,8 @@ namespace Business.KnnProject.Services
 
         IList<User> GetByRank(int rankId);
 
+        User GetById(int id);
+
         void Create(User newUser);
 
         void Update(User modifiedUser);
@@ -41,6 +43,9 @@ namespace Business.KnnProject.Services
 
         public IList<User> GetByRank(int rankId)
             => _repo.GetAll(x => x.RankId == rankId);
+
+        public User GetById(int id)
+            => _repo.GetById(id);
 
         public void Update(User modifiedUser)
         {

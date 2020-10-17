@@ -19,7 +19,7 @@ namespace Persistence.KnnProject.Models
 
         public Category Category { get; set; }
 
-        public DateTime Date{ get; set; }
+        public DateTime CreatedDate{ get; set; }
 
         public ICollection<ImageStorage> ImageStorages { get; set; }
 

@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace KnnProject.Controllers
 {
+    [RoutePrefix("api/size-management")]
     public class SizeController : ApiControllerBase
     {
         private readonly ISizeService _service;
@@ -15,11 +16,11 @@ namespace KnnProject.Controllers
             _service = new SizeService();
         }
 
-        [HttpGet]
+        [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<SizeViewModel>>(_service.Get()));
 
-        [HttpPost]
+        [HttpPost, Route]
         public IHttpActionResult Post(CreateSizeViewModel newModel)
         {
             if (!ModelState.IsValid)
@@ -31,7 +32,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Route]
         public IHttpActionResult Put(UpdateSizeViewModel modifiedModel)
         {
             if (!ModelState.IsValid)
@@ -45,7 +46,7 @@ namespace KnnProject.Controllers
         }
 
 
-        [HttpDelete]
+        [HttpDelete, Route]
         public IHttpActionResult Delete(int sizeId)
         {
             _service.Delete(sizeId);

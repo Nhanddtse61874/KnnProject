@@ -1,5 +1,6 @@
 ﻿using Persistence.KnnProject.Models;
 using Persistence.KnnProject.Repositories;
+using System;
 using System.Collections.Generic;
 
 namespace Business.KnnProject.Services
@@ -18,6 +19,7 @@ namespace Business.KnnProject.Services
     }
     public class OrderService : ServiceBase, IOrderService
     {
+        private IOrderDetailService _oderDetail = new OrderDetailService();
         private readonly IRepository<Order> _repository;
 
         public OrderService()
@@ -26,6 +28,7 @@ namespace Business.KnnProject.Services
         }
         public void Create(Order newOrder)
         {
+            newOrder.Date = DateTime.Now;
             _repository.Create(newOrder);
             _unitOfWork.Save();
         }
@@ -37,13 +40,26 @@ namespace Business.KnnProject.Services
         }
 
         public IList<Order> Get()
-            => _repository.GetAll();
+        {
+            var result = _repository.GetAll(includeProperties: x => x.Orderdetails);
+            return result;
+        }
+            
 
         public IList<Order> GetByUser(int userId)
-            => _repository.GetAll(x => x.UserId == userId);
+        {
+           var result = _repository.GetAll(x => x.UserId == userId);
+            foreach (var item in result)
+            {
+                var sub = _oderDetail.GetByOrder(item.Id);
+                item.Orderdetails = sub;
+            }
+            return result;
+        }
 
         public void Update(Order modifiedOrder)
         {
+            modifiedOrder.Date = DateTime.Now;
             _repository.Update(modifiedOrder);
             _unitOfWork.Save(); 
         }

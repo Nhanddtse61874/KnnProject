@@ -23,19 +23,25 @@ namespace Business.KnnProject.Services
 
         IList<Product> GetAll(int? pageIndex, int? pageSize);
 
-        IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId);
+        IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId, int? pageIndex, int? pageSize);
     }
     public class ProductService : ServiceBase, IProductService
     {
         private readonly IRepository<Product> _repository;
 
+        private ITagService _tagService;
+        private IColorService _coloService;
+        private ISizeService _sizeService;
         public ProductService()
         {
+            _tagService = new TagService();
+            _coloService = new ColorService();
+            _sizeService = new SizeService();
             _repository = _unitOfWork.Repository<Product>();
         }
         public void Create(Product newProduct)
         {
-            newProduct.Date = DateTime.Now;
+
             _repository.Create(newProduct);
             _unitOfWork.Save();
         }
@@ -60,20 +66,20 @@ namespace Business.KnnProject.Services
 
         public void Update(Product modifiedProduct)
         {
-            modifiedProduct.Date = DateTime.Now;
             _repository.Update(modifiedProduct);
             _unitOfWork.Save();
         }
         public IList<Product> GetAll(int? pageIndex, int? pageSize)
         {
 
-            return _repository.GetAll(orderBy: x => x.OrderBy(y => y.Id) , pageIndex : pageIndex, pageSize : pageSize,
-             //  filter: x =>
-             //   (!colorId.HasValue || x.ColorProducts.Select(y => y.ColorId).Contains(colorId ?? -1))
-             //&& (!sizeId.HasValue) || x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1),
-               includeProperties: x => x.ColorProducts);
+            return _repository.GetAll(filter: null, orderBy: x => x.OrderBy(y => y.Id), 
+                pageIndex: pageIndex, pageSize: pageSize,
+                    x => x.ImageStorages,
+                    x => x.ColorProducts.Select(y => y.Color),
+                    x => x.TagProducts.Select(y => y.Tag),
+                    x => x.SizeProducts.Select(y => y.Size));
         }
-        public IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId)
+        public IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId, int? pageIndex, int? pageSize)
         {
             Expression<Func<Product, bool>> filter = x => true;
 
@@ -95,7 +101,11 @@ namespace Business.KnnProject.Services
             {
                 filter = filter.And(x => x.CategoryId == categoryId);
             }
-            return _repository.GetAll(filter);
+            return _repository.GetAll(filter, orderBy : x => x.OrderBy(y => y.Id), pageIndex : pageIndex, pageSize : pageSize,
+                    x => x.ImageStorages,
+                    x => x.ColorProducts.Select(y => y.Color),
+                    x => x.TagProducts.Select(y => y.Tag),
+                    x => x.SizeProducts.Select(y => y.Size));
         }
         //public IList<Product> GetAll2()
         //{

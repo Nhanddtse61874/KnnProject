@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace KnnProject.Controllers
 {
+    [RoutePrefix("api/order-management")]
     public class ContactController : ApiControllerBase
     {
         private readonly IContactService _service;
@@ -15,11 +16,11 @@ namespace KnnProject.Controllers
             _service = new ContactService();
         }
 
-        [HttpGet]
+        [HttpGet, Route]
         public IHttpActionResult Get()
                 => Ok(_mapper.Map<IEnumerable<ContactViewModel>>(_service.GetAllContact()));
 
-        [HttpPost]
+        [HttpPost, Route]
         public IHttpActionResult Post(CreateContactViewModel newModel)
         {
             if (!ModelState.IsValid)
@@ -30,7 +31,7 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Route]
         public IHttpActionResult Put(UpdateContactViewModel modifiedModel)
         {
             if (!ModelState.IsValid)
@@ -42,7 +43,7 @@ namespace KnnProject.Controllers
         }
 
 
-        [HttpDelete]
+        [HttpDelete, Route]
         public IHttpActionResult Delete(int contactId)
         {
             _service.Delete(contactId);

@@ -8,7 +8,6 @@ namespace KnnProject.ViewModels
 {
     public class ProductViewModel
     {
-
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -31,7 +30,7 @@ namespace KnnProject.ViewModels
 
         public IEnumerable<SizeViewModel> Sizes { get; set; }
 
-
+        public IEnumerable<ImageStorageViewModel> ImageStorages { get; set; }
     }
 
     public class CreateProductViewModel
@@ -48,13 +47,11 @@ namespace KnnProject.ViewModels
 
         public bool Status { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public IEnumerable<int> Colors { get; set; }
 
-        public IEnumerable<ColorViewModel> Colors { get; set; }
+        public IEnumerable<int> Tags { get; set; }
 
-        public IEnumerable<TagViewModel> Tags { get; set; }
-
-        public IEnumerable<SizeViewModel> Sizes { get; set; }
+        public IEnumerable<int> Sizes { get; set; }
 
     }
 

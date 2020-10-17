@@ -1,9 +1,4 @@
-﻿using Persistence.KnnProject.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace KnnProject.ViewModels
 {
@@ -12,22 +7,21 @@ namespace KnnProject.ViewModels
         public string ImageUrl { get; set; }
 
         public string Alt { get; set; }
-
-        public int ProductId { get; set; }
-
     }
+
     public class CreateImageStorageViewModel
     {
+        public CreateImageStorageViewModel(string alt, string imageUrl)
+        {
+            ImageUrl = imageUrl;
+            Alt = alt;
+        }
+
         [Required]
         public string ImageUrl { get; set; }
 
-
-        [Required][MaxLength(255)]
+        [Required, MaxLength(255)]
         public string Alt { get; set; }
-
-        [Required]
-        public int ProductId { get; set; }
-
     }
 
     public class UpdateImageStorageViewModel
@@ -46,6 +40,5 @@ namespace KnnProject.ViewModels
 
         [Required]
         public int ProductId { get; set; }
-
     }
 }
