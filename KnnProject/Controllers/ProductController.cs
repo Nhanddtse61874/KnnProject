@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
+
 namespace KnnProject.Controllers
 {
     [RoutePrefix("api/product-management")]
@@ -45,7 +46,9 @@ namespace KnnProject.Controllers
         {
             string route = "api/product-management?pageIndex={0}&pageSize={1}";
             //_productService.Count
-            int totalPages = 10;
+            
+            var result = _mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetAll(pageIndex, pageSize));
+            int? totalPages = result.Count()/pageSize;
             var paginationHeader = new
             {
                 pageIndex,
@@ -62,15 +65,16 @@ namespace KnnProject.Controllers
                 JsonConvert.SerializeObject(paginationHeader));
 
 
-            return Ok(_mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetAll(pageIndex, pageSize)));
+            return Ok(result);
         }
 
         [HttpPost, Route]
-        public IHttpActionResult Post()
+        public virtual IHttpActionResult Post()
         {
             string json = HttpContext.Current.Request.Form["newProduct"];
-            var newProduct = JsonConvert.DeserializeObject<CreateProductViewModel>(json);
-
+            
+             var newProduct = JsonConvert.DeserializeObject<CreateProductViewModel>(json);
+            Validate(newProduct);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
