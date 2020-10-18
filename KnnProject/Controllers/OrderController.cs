@@ -15,16 +15,16 @@ namespace KnnProject.Controllers
         {
             _service = new OrderService();
         }
+        
 
-        //[HttpGet]
-        //public IHttpActionResult GetByUser(int userId)
-        //        => Ok(_mapper.Map<IEnumerable<OrderViewModel>>(_service.GetByUser(userId)));
-
+        //Get all Orders
         [Route]
         [HttpGet]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<OrderViewModel>>(_service.Get()));
 
+
+        //Get Orders By userId
         [Route("users/{userId}/orders")]
         [HttpGet]
         public IHttpActionResult GetByUser(int userId)
@@ -34,6 +34,8 @@ namespace KnnProject.Controllers
             return Ok(result);
         }
 
+
+        //Create new Order and OrderDetail
         [Route ("users/orders")]
         [HttpPost]
         public IHttpActionResult Post(CreateOrderViewModel newModel)
@@ -46,6 +48,8 @@ namespace KnnProject.Controllers
             _service.Create(_mapper.Map<Order>(newModel));
             return Ok();
         }
+
+        //Update Order
         [Route("users/orders")]
         [HttpPut]
         public IHttpActionResult Put(UpdateOrderViewModel modifiedModel) 
@@ -58,6 +62,8 @@ namespace KnnProject.Controllers
             _service.Update(_mapper.Map<Order>(modifiedModel));
             return Ok();
         }
+
+        //Delete Order
         [Route("{orderId}")]
         [HttpDelete]
         public IHttpActionResult Delete(int orderId)

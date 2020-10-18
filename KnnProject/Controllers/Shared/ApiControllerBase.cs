@@ -98,7 +98,11 @@ namespace KnnProject.Controllers
                     .ForMember(x => x.ColorProducts, src => src.MapFrom(dest => dest.Colors))
                     .ForMember(x => x.TagProducts, src => src.MapFrom(dest => dest.Tags))
                     .ForMember(x => x.SizeProducts, src => src.MapFrom(dest => dest.Sizes));
-                cfg.CreateMap<UpdateProductViewModel, Product>();
+                cfg.CreateMap<UpdateProductViewModel, Product>()
+                    .ForMember(x => x.CreatedDate, src => src.MapFrom(dest => DateTime.Now))
+                    .ForMember(x => x.ColorProducts, src => src.MapFrom(dest => dest.Colors))
+                    .ForMember(x => x.TagProducts, src => src.MapFrom(dest => dest.Tags))
+                    .ForMember(x => x.SizeProducts, src => src.MapFrom(dest => dest.Sizes));
 
 
                 cfg.CreateMap<RankViewModel, Rank>().ReverseMap();

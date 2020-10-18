@@ -16,10 +16,14 @@ namespace KnnProject.Controllers
             _service = new RoleService();
         }
 
+
+        //Get All Roles
         [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<RoleViewModel>>(_service.Get()));
 
+
+        //Create new role
         [HttpPost, Route]
         public IHttpActionResult Post(CreateRoleViewModel newModel)
         {
@@ -32,6 +36,8 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+
+        //Update Role
         [HttpPut, Route]
         public IHttpActionResult Put(UpdateRoleViewModel modifiedModel)
         {
@@ -44,6 +50,8 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+
+        //Delete Role
         [HttpDelete, Route]
         public IHttpActionResult Delete(int roleId) 
         {

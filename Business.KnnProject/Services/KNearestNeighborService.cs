@@ -1,5 +1,4 @@
 ﻿using Persistence.KnnProject.Models;
-using Persistence.KnnProject.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,18 +22,15 @@ namespace Business.KnnProject.Services
         private int k = 2;
         private readonly IUserService _userService;
         private readonly IOrderService _orderService;
-        private readonly IOrderDetailService _orderDetailService;
-        private readonly IProductService _productService;
 
         public KNearestNeighborService()
         {
             _userService = new UserService();
             _orderService = new OrderService();
-            _orderDetailService = new OrderDetailService();
-            _productService = new ProductService();
         }
 
         //return a list of products for using to suggest for customer who is logging
+        //K nearest neighbor
         public IList<int> Suggest(int userId)
         {
             User user = _userService.GetById(userId);

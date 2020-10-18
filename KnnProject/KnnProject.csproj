@@ -235,6 +235,7 @@
     <Compile Include="Controllers\ColorController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\KNearestNeighborController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RankController.cs" />

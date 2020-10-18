@@ -1,11 +1,7 @@
 ﻿using Business.KnnProject.Services;
 using KnnProject.ViewModels;
 using Persistence.KnnProject.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace KnnProject.Controllers
@@ -20,10 +16,14 @@ namespace KnnProject.Controllers
             _tagService = new TagService();
         }
 
+
+        //Get all Tags
         [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<TagViewModel>>(_tagService.GetAllTag()));
       
+
+        //Create new Tag
         [HttpPost, Route]
         public IHttpActionResult Post(CreateTagViewModel tag)
         {
@@ -37,6 +37,8 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+
+        //Update Tag
         [HttpPut, Route] 
         public IHttpActionResult Put(UpdateTagViewModel tag)
         {
@@ -48,6 +50,8 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+
+        //Delete Tag
         [HttpDelete, Route]
         public IHttpActionResult Delete(int tagId)
         {

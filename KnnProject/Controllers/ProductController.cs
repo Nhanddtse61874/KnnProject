@@ -22,26 +22,9 @@ namespace KnnProject.Controllers
             _productService = new ProductService();
         }
 
-        //[HttpGet]
-        //public IHttpActionResult Get(int productId)
-        //  => Ok(_mapper.Map<ProductViewModel>(_productService.GetById(productId)));
-
-        // -- filter theo 
-        //gia <>
-        //size == 
-        //tag == 
-        //color ==
-        //category ==
-        // -- sort theo 
-        //moi nhat (mac dinh)
-        //rating
-        //price
-        // -- phan trang
-        //12
-        //24
-        //36
+       
         [Route]
-        [HttpGet]
+        [HttpGet]//Get all products 
         public IHttpActionResult Get(int? pageIndex, int? pageSize)
         {
             string route = "api/product-management?pageIndex={0}&pageSize={1}";
@@ -109,17 +92,60 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
-        [HttpPut, Route]
-        public IHttpActionResult Put(UpdateProductViewModel modifiedModel)
+
+        [HttpPut][Route]
+        public IHttpActionResult Put()
         {
+            string json = HttpContext.Current.Request.Form["modifiedProduct"];
+
+            var modifiedProduct = JsonConvert.DeserializeObject<UpdateProductViewModel>(json);
+            Validate(modifiedProduct);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-            _productService.Update(_mapper.Map<Product>(modifiedModel));
-            return Ok();
-        }
+            }// end if check is model validate
 
+            var product = _mapper.Map<Product>(modifiedProduct);
+
+            // handle upload image storage
+            var images = new List<CreateImageStorageViewModel>();
+            var files = HttpContext.Current.Request.Files;
+            foreach (string file in files)
+            {
+                var uploadFile = files[file];
+                if (uploadFile != null && uploadFile.ContentLength > 0)
+                {
+                    var extension = uploadFile.FileName.Substring(uploadFile.FileName.LastIndexOf('.'));
+
+                    var filePath = HttpContext.Current.Server.MapPath("~/Images/" + Guid.NewGuid() + extension);
+                    uploadFile.SaveAs(filePath);
+
+                    images.Add(new CreateImageStorageViewModel(uploadFile.FileName, filePath));
+                }// end if check is image uploaded
+            }
+            if (!images.Any())
+            {
+                images.Add(new CreateImageStorageViewModel("default-image", "https://picsum.photos/300/400"));
+            }// end if handle default image using https://picsum.photos/300/400
+
+            product.ImageStorages = _mapper.Map<List<ImageStorage>>(images);
+            _productService.Update(product);
+            return Ok();
+
+        }
+        //Update Product
+        //[HttpPut, Route]
+        //public IHttpActionResult Put(UpdateProductViewModel modifiedModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    _productService.Update(_mapper.Map<Product>(modifiedModel));
+        //    return Ok();
+        //}
+
+        //get product by filter (filter may be null )
         [HttpGet] [Route("{colorId}/{sizeId}/{tagId}/{categoryId}")]
         public IHttpActionResult GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId, int? pageIndex, int? pageSize)
         {
@@ -127,7 +153,7 @@ namespace KnnProject.Controllers
             return Ok(result);
         }
 
-        [HttpDelete, Route]
+        [HttpDelete, Route]//delete 1 product by productid
         public IHttpActionResult Delete(int id)
         {
             _productService.Delete(id);

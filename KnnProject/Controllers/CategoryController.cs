@@ -2,7 +2,6 @@
 using KnnProject.ViewModels;
 using Persistence.KnnProject.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 
 namespace KnnProject.Controllers
@@ -17,28 +16,19 @@ namespace KnnProject.Controllers
             _categoryService = new CategoryService();
         }
 
+        //Get all categories
         [Route]
         [HttpGet]
         public IHttpActionResult Get()
         {
             var result = _mapper.Map<IEnumerable<CategoryViewModel>>(_categoryService.GetAllCategory());
-            //int totalCategories = result.Count();
-            //int totalPages = totalCategories / 2;
+           
 
             return Ok(result);
-            //return Ok(new
-            //{
-            //    data = result,
-            //    pager = new
-            //    {
-            //        pageIndex = 1,
-            //        pageSize = 3,
-            //        totalPages,
-            //        totalResults = totalCategories
-            //    }
-            //});
+            
         }
 
+        //Create new category
         [HttpPost, Route]
         public IHttpActionResult Post(CreateCategoryViewModel category)
         {
@@ -51,6 +41,8 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+
+        //Update Category
         [HttpPut, Route]
         public IHttpActionResult Put(ModifiedCategoryViewModel category)
         {
@@ -63,6 +55,8 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+
+        //Delete Category
         [HttpDelete, Route]
         public IHttpActionResult Delete(int categoryId)
         {
@@ -71,6 +65,7 @@ namespace KnnProject.Controllers
         }
 
 
+        //Get category by categoryId
         [HttpGet][Route("{categoryId}")] 
         public IHttpActionResult GetById(int id)
         

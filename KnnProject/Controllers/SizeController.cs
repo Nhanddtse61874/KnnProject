@@ -16,10 +16,14 @@ namespace KnnProject.Controllers
             _service = new SizeService();
         }
 
+
+        //Get all Sizes
         [HttpGet, Route]
         public IHttpActionResult Get()
             => Ok(_mapper.Map<IEnumerable<SizeViewModel>>(_service.Get()));
 
+
+        //Create new Size
         [HttpPost, Route]
         public IHttpActionResult Post(CreateSizeViewModel newModel)
         {
@@ -32,6 +36,8 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+
+        //Update Size
         [HttpPut, Route]
         public IHttpActionResult Put(UpdateSizeViewModel modifiedModel)
         {
@@ -46,6 +52,7 @@ namespace KnnProject.Controllers
         }
 
 
+        //DElete Size
         [HttpDelete, Route]
         public IHttpActionResult Delete(int sizeId)
         {
