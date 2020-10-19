@@ -10,7 +10,7 @@ namespace Business.KnnProject.Services
 {
     public interface ILoginService
     {
-        int Check(string userName, string passWord);
+        User Check(LoginService.LoginModel loginMode);
     }
     public class LoginService : ServiceBase, ILoginService
     {
@@ -23,18 +23,29 @@ namespace Business.KnnProject.Services
             _userService = new UserService();
         }
 
-        public int Check(string userName, string passWord)
+        public User Check(LoginModel loginModel)
         {
-            var users = _userRepo.GetAll();
-            foreach (var item in users)
+            
+
+            var user = _userRepo.Get(x => x.UserName == loginModel.UserName);
+            
+           
             {
-                if(item.UserName == userName && item.PassWord == passWord)
+                if (user.PassWord == loginModel.PassWord)
                 {
-                    return item.Id;
+                    return user;
                 }
             }
-            return -1;
+            return null;
 
         }
+
+        public class LoginModel
+        {
+            public string UserName { get; set; }
+
+            public string PassWord { get; set; }
+        }
+
     }
 }

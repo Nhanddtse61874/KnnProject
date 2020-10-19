@@ -6,7 +6,7 @@ namespace Business.KnnProject.Services
 {
     public interface IKNearestNeighborService
     {
-        IList<int> Suggest(int userId);
+        IList<Product> Suggest(int userId);
 
         IList<int> listDictin(IList<int> list1, IList<int> list2);
 
@@ -22,28 +22,36 @@ namespace Business.KnnProject.Services
         private int k = 2;
         private readonly IUserService _userService;
         private readonly IOrderService _orderService;
+        private readonly IProductService _productService;
 
         public KNearestNeighborService()
         {
             _userService = new UserService();
             _orderService = new OrderService();
+            _productService = new ProductService();
         }
 
         //return a list of products for using to suggest for customer who is logging
         //K nearest neighbor
-        public IList<int> Suggest(int userId)
+        public IList<Product> Suggest(int userId)
         {
+            
             User user = _userService.GetById(userId);
-            var listUser = _userService.GetByRank(userId);
+            var listUser = _userService.GetByRank(user.RankId);
             var listProductOfUser = GetProductByOrderDetail(GetOrderDetailByOrder(GetOrderByUser(user)));
-            IList<int> result = new List<int>();
+            IEnumerable<int> result = new List<int>();
 
             foreach (var item3 in listUser)
             {
                 var listProductAllUser = GetProductByOrderDetail(GetOrderDetailByOrder(GetOrderByUser(item3)));
-                result = result.Concat(listDictin(listProductOfUser, listProductAllUser)).Distinct().ToList();
+                result = result.Concat(listDictin(listProductOfUser, listProductAllUser)).Distinct();
             }
-            return result;
+            IList<Product> products = new List<Product>();
+            foreach (var item in result)
+            {
+                products.Add(_productService.GetById(item));
+            }
+            return products;
 
         }
         //Removes the duplicate elements between 2 lists when user is neighbor
