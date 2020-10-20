@@ -60,7 +60,10 @@ namespace Business.KnnProject.Services
 
         public Product GetById(int productId)
         {
-            var result = _repository.GetById(productId);
+            var result = _repository.GetById(productId, x => x.ImageStorages,
+                    x => x.ColorProducts.Select(y => y.Color),
+                    x => x.TagProducts.Select(y => y.Tag),
+                    x => x.SizeProducts.Select(y => y.Size));
             return result;
         }
 

@@ -17,14 +17,20 @@ namespace Business.KnnProject.Services
         void Update(User modifiedUser);
 
         void Delete(int userId);
+
+        IList<User> GetByRole(int roleId);
     }
     public class UserService : ServiceBase, IUserService
     {
         private readonly IRepository<User> _repo;
+        private readonly IOrderService _orderService;
+
 
         public UserService()
         {
             _repo = _unitOfWork.Repository<User>();
+            _orderService = new OrderService();
+
         }
         public void Create(User newUser)
         {
@@ -39,14 +45,39 @@ namespace Business.KnnProject.Services
         }
 
         public IList<User> Get()
-            => _repo.GetAll();
-
+        {
+            var result = _repo.GetAll(includeProperties: x => x.Orders);
+            foreach (var item in result)
+            {
+                item.Orders = _orderService.GetByUser(item.Id);
+            }
+            return result;
+        }
         public IList<User> GetByRank(int rankId)
-            => _repo.GetAll(x => x.RankId == rankId);
 
+        {
+            var result = _repo.GetAll(x => x.RankId == rankId, includeProperties: x => x.Orders);
+            foreach (var item in result)
+            {
+                item.Orders = _orderService.GetByUser(item.Id);
+            }
+            return result;
+        }
+        public IList<User> GetByRole(int roleId)
+        {
+            var result = _repo.GetAll(x => x.RoleId == roleId, includeProperties: x => x.Orders);
+            foreach (var item in result)
+            {
+                item.Orders = _orderService.GetByUser(item.Id);
+            }
+            return result;
+        }
         public User GetById(int id)
-            => _repo.GetById(id);
-
+        {
+            var result = _repo.GetById(id, includeProperties: x => x.Orders);
+            result.Orders = _orderService.GetByUser(result.Id);
+            return result;
+        }
         public void Update(User modifiedUser)
         {
             _repo.Update(modifiedUser);

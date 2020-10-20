@@ -1,9 +1,6 @@
 ﻿using Persistence.KnnProject.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace KnnProject.ViewModels
 {
@@ -31,7 +28,7 @@ namespace KnnProject.ViewModels
 
         public Rank Rank { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
     }
 
     public class CreateUserViewModel
@@ -63,6 +60,8 @@ namespace KnnProject.ViewModels
 
         [Required]
         public double Point { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; }
 
     }
 
@@ -97,6 +96,8 @@ namespace KnnProject.ViewModels
 
         [Required]
         public double Point { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; }
 
     }
 }

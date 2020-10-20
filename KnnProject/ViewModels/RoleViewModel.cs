@@ -9,6 +9,8 @@ namespace KnnProject.ViewModels
 {
     public class RoleViewModel
     {
+        [Required]
+        [MaxLength(255)]
         public string Description { get; set; }
 
         public ICollection<User> Users { get; set; }

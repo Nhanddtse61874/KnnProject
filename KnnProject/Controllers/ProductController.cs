@@ -133,17 +133,7 @@ namespace KnnProject.Controllers
             return Ok();
 
         }
-        //Update Product
-        //[HttpPut, Route]
-        //public IHttpActionResult Put(UpdateProductViewModel modifiedModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    _productService.Update(_mapper.Map<Product>(modifiedModel));
-        //    return Ok();
-        //}
+        
 
         //get product by filter (filter may be null )
         [HttpGet] [Route("{colorId}/{sizeId}/{tagId}/{categoryId}")]

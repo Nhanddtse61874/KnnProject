@@ -111,7 +111,10 @@ namespace KnnProject.Controllers
                 
                 cfg.CreateMap<TagViewModel, Tag>().ReverseMap();
                 
-                cfg.CreateMap<UserViewModel, User>().ReverseMap();
+                cfg.CreateMap<UserViewModel, User>()
+                .ReverseMap();
+               
+
                 cfg.CreateMap<CreateUserViewModel, User>().ReverseMap();
                 cfg.CreateMap<UpdateUserViewModel, User>().ReverseMap();
             });

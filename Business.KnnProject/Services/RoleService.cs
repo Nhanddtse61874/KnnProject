@@ -17,10 +17,12 @@ namespace Business.KnnProject.Services
     public class RoleService : ServiceBase, IRoleService
     {
         private readonly IRepository<Role> _repo;
+        private readonly IUserService _userService;
 
         public RoleService()
         {
             _repo = _unitOfWork.Repository<Role>();
+            _userService = new UserService();
         }
         public void Create(Role newRole)
         {
@@ -35,7 +37,14 @@ namespace Business.KnnProject.Services
         }
 
         public IList<Role> Get()
-            => _repo.GetAll();
+        {
+            var result = _repo.GetAll(includeProperties: x => x.Users);
+            foreach (var item in result)
+            {
+                item.Users = _userService.GetByRole(item.Id);
+            }
+            return result;
+        }
         public void Update(Role modifiedRole)
         {
             _repo.Update(modifiedRole);

@@ -17,9 +17,11 @@ namespace Business.KnnProject.Services
     public class RankService : ServiceBase, IRankService
     {
         private readonly IRepository<Rank> _repo;
+        private readonly IUserService _userService;
 
         public RankService()
         {
+            _userService = new UserService();
             _repo = _unitOfWork.Repository<Rank>();
         }
         public void Create(Rank newRank)
@@ -35,7 +37,15 @@ namespace Business.KnnProject.Services
         }
 
         public IList<Rank> Get()
-            => _repo.GetAll();
+        {
+            var result  = _repo.GetAll(includeProperties: x => x.Users);
+            foreach (var item in result)
+            {
+                item.Users = _userService.GetByRank(item.Id);
+            }
+            return result;
+        }
+            
         public void Update(Rank modifiedRank)
         {
             _repo.Update(modifiedRank);

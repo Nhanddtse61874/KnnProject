@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Persistence.KnnProject.Models;
-
-namespace Persistence.KnnProject.Models
+﻿namespace Persistence.KnnProject.Models
 {
     public class ImageStorage : BaseModel
     {

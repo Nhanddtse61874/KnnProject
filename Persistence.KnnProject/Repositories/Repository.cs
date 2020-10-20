@@ -1,5 +1,4 @@
 ﻿using Business.KnnProject;
-using Persistence.DataAccess.Models;
 using Persistence.KnnProject.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace Persistence.KnnProject.Repositories
             int? pageIndex = null, int? pageSize = null, 
             params Expression<Func<T, object>>[] includeProperties);
 
-        T GetById(int id);
+        T GetById(int id, params Expression<Func<T, object>>[] includeProperties);
 
         T Get(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties);
 
@@ -83,7 +82,16 @@ namespace Persistence.KnnProject.Repositories
             return result.ToList();
         }
 
-        public T GetById(int id) => _dbSet.Find(id);
+        public T GetById(int id, params Expression<Func<T, object>>[] includeProperties)
+        {
+            var result = IncludeProperties(includeProperties).AsExpandable();
+
+            if (id != null)
+            {
+                result = result.Where(x => x.Id == id);
+            }
+            return result.FirstOrDefault();
+        }
 
         public T Get(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties)
         {

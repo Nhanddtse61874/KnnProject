@@ -67,9 +67,9 @@ namespace KnnProject.Controllers
 
         //Get category by categoryId
         [HttpGet][Route("{categoryId}")] 
-        public IHttpActionResult GetById(int id)
+        public IHttpActionResult GetById(int categoryId)
         
-           => Ok(_mapper.Map<Category>(_categoryService.GetById(id)));
+           => Ok(_mapper.Map<Category>(_categoryService.GetById(categoryId)));
         
 
     }

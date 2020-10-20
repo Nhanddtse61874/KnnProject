@@ -18,7 +18,11 @@ namespace KnnProject.Controllers
 
         [HttpGet, Route]
         public IHttpActionResult Get()
-            => Ok(_mapper.Map<IEnumerable<RankViewModel>>(_service.Get()));
+        {
+            var result = _mapper.Map<IEnumerable<RankViewModel>>(_service.Get());
+            return Ok(result);
+        }
+           
 
         [HttpPost, Route]
         public IHttpActionResult Post(CreateRankViewModel newModel)

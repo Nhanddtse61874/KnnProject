@@ -34,14 +34,14 @@ namespace KnnProject.Controllers
         //get all users have the same rank 
         [Route("{rankId}/ranks")]
         [HttpGet]
-        public IHttpActionResult Get(int rankId)
+        public IHttpActionResult Get(int rankId, int? pageIndex, int? pageSize)
             => Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.GetByRank(rankId)));
 
 
         //get all users have the same role
         [Route("{roleId}/roles")]
         [HttpGet]
-        public IHttpActionResult GetByUser(int roleId)
+        public IHttpActionResult GetByUser(int roleId, int? pageIndex, int? pageSize)
             => Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.GetByRank(roleId)));
 
 
