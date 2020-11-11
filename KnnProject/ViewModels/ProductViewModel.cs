@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Persistence.KnnProject.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,10 +20,11 @@ namespace KnnProject.ViewModels
        
         public int Quantity { get; set; }
 
-        
+        public double Star { get; set; }
         public string Description { get; set; }
 
-        
+        public string Code { get; set; }
+        public double CurrenPrice { get; set; }
         public int CategoryId { get; set; }
 
         public bool Status { get; set; }
@@ -47,6 +49,12 @@ namespace KnnProject.ViewModels
         public double Price { get; set; }
 
         [Required]
+        public double CurrenPrice { get; set; }
+
+        [Required]
+        public string Code { get; set; }
+
+        [Required]
         public int Quantity { get; set; }
 
         [Required, MaxLength(255)]
@@ -54,6 +62,9 @@ namespace KnnProject.ViewModels
 
         [Required]
         public int CategoryId { get; set; }
+       
+        [Required]
+        public double Star { get; set; }
 
         [Required]
         public bool Status { get; set; }
@@ -77,6 +88,12 @@ namespace KnnProject.ViewModels
         public double Price { get; set; }
 
         [Required]
+        public string Code { get; set; }
+        
+        [Required]
+        public double CurrenPrice { get; set; }
+
+        [Required]
         public int Quantity { get; set; }
 
         [Required, MaxLength(255)]
@@ -84,6 +101,9 @@ namespace KnnProject.ViewModels
 
         [Required]
         public int CategoryId { get; set; }
+        
+        [Required]
+        public double Star { get; set; }
 
         [Required]
         public bool Status { get; set; }
@@ -96,5 +116,8 @@ namespace KnnProject.ViewModels
         public IEnumerable<TagViewModel> Tags { get; set; }
 
         public IEnumerable<SizeViewModel> Sizes { get; set; }
+
     }
+
+   
 }

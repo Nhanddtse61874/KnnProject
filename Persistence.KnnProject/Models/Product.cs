@@ -9,7 +9,11 @@ namespace Persistence.KnnProject.Models
 
         public double Price { get; set; }
 
+        public double CurrentPrice { get; set; }
+
         public int Quantity { get; set; }
+
+        public string Code { get; set; }
 
         public string Description { get; set; }
 
@@ -20,6 +24,10 @@ namespace Persistence.KnnProject.Models
         public Category Category { get; set; }
 
         public DateTime CreatedDate{ get; set; }
+
+        public double Star { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
 
         public ICollection<ImageStorage> ImageStorages { get; set; }
 

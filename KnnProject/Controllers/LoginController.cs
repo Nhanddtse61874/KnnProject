@@ -28,8 +28,8 @@ namespace KnnProject.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var userId = _login.Check(loginModel);
-            return Ok(userId);
+            var user = _login.Check(loginModel);
+            return Ok(user);
         }
     }
 }

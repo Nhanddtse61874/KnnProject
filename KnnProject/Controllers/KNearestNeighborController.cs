@@ -1,7 +1,6 @@
 ﻿using Business.KnnProject.Services;
-using Newtonsoft.Json;
-using System.Linq;
-using System.Web;
+using KnnProject.ViewModels;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace KnnProject.Controllers
@@ -10,35 +9,46 @@ namespace KnnProject.Controllers
     public class KNearestNeighborController : ApiControllerBase
     {
         private readonly IKNearestNeighborService _kService;
+        private readonly IUserService _user;
+        private readonly IProductService _product;
 
         public KNearestNeighborController()
         {
             _kService = new KNearestNeighborService();
+            _user = new UserService();
+            _product = new ProductService();
         }
 
         [HttpGet]
-        [Route("{userId}/{pageIndex}/{pageSize}")]
-        public IHttpActionResult Get(int userId, int? pageIndex, int? pageSize)
+        [Route("{userId}")]
+        public IHttpActionResult GetData(int userId)
         {
-            string route = "api/knearestneibor-management?pageIndex={0}&pageSize={1}";
+            var productCodesOfUserLogging = _kService.GetAllProductCodeByUserIdToRecommend(userId);
+            
+            IList<List<ProductRecommence>> listDataOfProductCode = _kService.GetAllUsersAndAllProductCodesToRecommend(userId);
+            var result = new Recommence(userId, productCodesOfUserLogging, listDataOfProductCode);
 
-            var result = _kService.Suggest(userId);
-            var totalPages = result.Count() / pageSize;
-            var paginationHeader = new
-            {
-                pageIndex,
-                pageSize,
-                //TotalCount = totalCount,
-                //TotalPages = totalPages,
-                prevPageLink = string.Format(route, pageIndex == 1 ? 1 : pageSize - 1, pageSize),
-                nextPageLink = string.Format(route, pageIndex == totalPages ? totalPages : pageIndex + 1, pageSize),
-                firstPageLink = string.Format(route, 1, pageSize),
-                lastPageLink = string.Format(route, totalPages, pageSize)
-            };
-
-            HttpContext.Current.Response.Headers.Add("x-pagination",
-                JsonConvert.SerializeObject(paginationHeader));
-            return Ok(result);
+            return Ok(System.Text.Json.JsonSerializer.Serialize(result));
         }
+
+        [HttpPost]
+        [Route]
+        public IHttpActionResult GetResult(ProductCode data)
+        {
+            
+            var productCodes = data.FinalResult;
+            if (productCodes == null || productCodes.Count == 0)
+            {
+                return Ok();
+            }
+            var result = _product.GetByProductCodes(productCodes);
+            return Ok(_mapper.Map<IEnumerable<ProductViewModel>>(result));
+        }
+    }
+
+    public class ProductCode
+    {
+        public string Name { get; set; }
+        public IList<string> FinalResult { get; set; }
     }
 }

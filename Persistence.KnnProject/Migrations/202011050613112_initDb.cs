@@ -26,11 +26,14 @@
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 255),
                         Price = c.Double(nullable: false),
+                        CurrentPrice = c.Double(nullable: false),
                         Quantity = c.Int(nullable: false),
+                        Code = c.String(nullable: false, maxLength: 255),
                         Description = c.String(nullable: false, maxLength: 255),
                         CategoryId = c.Int(nullable: false),
                         Status = c.Boolean(nullable: false),
                         CreatedDate = c.DateTime(nullable: false),
+                        Star = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Category", t => t.CategoryId, cascadeDelete: true)
@@ -145,6 +148,20 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.Reviews",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ProductId = c.Int(nullable: false),
+                        Star = c.Double(nullable: false),
+                        UserName = c.String(),
+                        Comment = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Product", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.ProductId);
+            
+            CreateTable(
                 "dbo.SizeProduct",
                 c => new
                     {
@@ -211,6 +228,7 @@
             DropForeignKey("dbo.TagProduct", "TagId", "dbo.Tag");
             DropForeignKey("dbo.SizeProduct", "ProductId", "dbo.Product");
             DropForeignKey("dbo.SizeProduct", "SizeId", "dbo.Size");
+            DropForeignKey("dbo.Reviews", "ProductId", "dbo.Product");
             DropForeignKey("dbo.OrderDetail", "ProductId", "dbo.Product");
             DropForeignKey("dbo.User", "RoleId", "dbo.Role");
             DropForeignKey("dbo.User", "RankId", "dbo.Rank");
@@ -224,6 +242,7 @@
             DropIndex("dbo.TagProduct", new[] { "ProductId" });
             DropIndex("dbo.SizeProduct", new[] { "SizeId" });
             DropIndex("dbo.SizeProduct", new[] { "ProductId" });
+            DropIndex("dbo.Reviews", new[] { "ProductId" });
             DropIndex("dbo.User", new[] { "RoleId" });
             DropIndex("dbo.User", new[] { "RankId" });
             DropIndex("dbo.Order", new[] { "UserId" });
@@ -239,6 +258,7 @@
             DropTable("dbo.TagProduct");
             DropTable("dbo.Size");
             DropTable("dbo.SizeProduct");
+            DropTable("dbo.Reviews");
             DropTable("dbo.Role");
             DropTable("dbo.Rank");
             DropTable("dbo.User");

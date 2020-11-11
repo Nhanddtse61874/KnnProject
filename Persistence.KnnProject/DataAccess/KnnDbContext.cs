@@ -3,7 +3,6 @@ using Persistence.KnnProject.Models;
 using Persistence.KnnProject.Models.Config;
 using System.Data.Entity;
 
-
 namespace Persistence.DataAccess.Models
 {
     public class KnnDbContext : DbContext

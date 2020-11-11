@@ -1,6 +1,7 @@
 ﻿using Persistence.KnnProject.Models;
 using Persistence.KnnProject.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.KnnProject.Services
 {
@@ -54,22 +55,17 @@ namespace Business.KnnProject.Services
             return result;
         }
         public IList<User> GetByRank(int rankId)
-
         {
-            var result = _repo.GetAll(x => x.RankId == rankId, includeProperties: x => x.Orders);
-            foreach (var item in result)
-            {
-                item.Orders = _orderService.GetByUser(item.Id);
-            }
-            return result;
+            var users = _repo.GetAll(x => x.RankId == rankId, includeProperties: x => x.Orders);
+            return users;
         }
         public IList<User> GetByRole(int roleId)
         {
             var result = _repo.GetAll(x => x.RoleId == roleId, includeProperties: x => x.Orders);
-            foreach (var item in result)
-            {
-                item.Orders = _orderService.GetByUser(item.Id);
-            }
+            //foreach (var item in result)
+            //{
+            //    item.Orders = _orderService.GetByUser(item.Id);
+            //}
             return result;
         }
         public User GetById(int id)

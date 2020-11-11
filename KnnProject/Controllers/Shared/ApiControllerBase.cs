@@ -39,7 +39,6 @@ namespace KnnProject.Controllers
                 cfg.CreateMap<Order, OrderViewModel>();
                 cfg.CreateMap<CreateOrderViewModel, Order>();
                 cfg.CreateMap<UpdateOrderViewModel, Order>();
-
                 cfg.CreateMap<OrderDetail, OrderDetailViewModel>().ReverseMap();
                 cfg.CreateMap<CreateOrderDetailViewModel, OrderDetail>();
                 cfg.CreateMap<UpdateOrderDetailViewModel, OrderDetail>();
@@ -47,6 +46,10 @@ namespace KnnProject.Controllers
                 cfg.CreateMap<Rank, RankViewModel>();
                 cfg.CreateMap<CreateRankViewModel, Rank>();
                 cfg.CreateMap<UpdateRankViewModel, Rank>();
+
+                cfg.CreateMap<Review, PreviewViewModel>();
+                cfg.CreateMap<CreatePreviewViewModel, Review>();
+                cfg.CreateMap<UpdatePreviewViewModel, Review>();
 
                 cfg.CreateMap<Role, RoleViewModel>();
                 cfg.CreateMap<CreateRoleViewModel, Role>();
@@ -103,7 +106,7 @@ namespace KnnProject.Controllers
                     .ForMember(x => x.ColorProducts, src => src.MapFrom(dest => dest.Colors))
                     .ForMember(x => x.TagProducts, src => src.MapFrom(dest => dest.Tags))
                     .ForMember(x => x.SizeProducts, src => src.MapFrom(dest => dest.Sizes));
-
+                
 
                 cfg.CreateMap<RankViewModel, Rank>().ReverseMap();
                 cfg.CreateMap<RoleViewModel, Role>().ReverseMap();
@@ -113,6 +116,7 @@ namespace KnnProject.Controllers
                 
                 cfg.CreateMap<UserViewModel, User>()
                 .ReverseMap();
+
                
 
                 cfg.CreateMap<CreateUserViewModel, User>().ReverseMap();

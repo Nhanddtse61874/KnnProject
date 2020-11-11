@@ -24,11 +24,7 @@ namespace KnnProject.ViewModels
 
         public double Point { get; set; }
 
-        public Role Role { get; set; }
-
-        public Rank Rank { get; set; }
-
-        public IEnumerable<Order> Orders { get; set; }
+        public IEnumerable<OrderViewModel> Orders { get; set; }
     }
 
     public class CreateUserViewModel
@@ -97,7 +93,7 @@ namespace KnnProject.ViewModels
         [Required]
         public double Point { get; set; }
 
-        public IEnumerable<Order> Orders { get; set; }
 
     }
+   
 }

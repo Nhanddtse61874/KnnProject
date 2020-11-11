@@ -64,7 +64,7 @@ namespace Persistence.KnnProject.Repositories
             int? pageIndex = null, int? pageSize = null,
             params Expression<Func<T, object>>[] includeProperties)
         {
-            var result = IncludeProperties(includeProperties).AsExpandable();
+            var result = IncludeProperties(includeProperties);
             
             if (filter != null)
             {
@@ -84,18 +84,14 @@ namespace Persistence.KnnProject.Repositories
 
         public T GetById(int id, params Expression<Func<T, object>>[] includeProperties)
         {
-            var result = IncludeProperties(includeProperties).AsExpandable();
+            var result = IncludeProperties(includeProperties);
 
-            if (id != null)
-            {
-                result = result.Where(x => x.Id == id);
-            }
-            return result.FirstOrDefault();
+            return result.FirstOrDefault(x => x.Id == id);
         }
 
         public T Get(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties)
         {
-            var result = IncludeProperties();
+            var result = IncludeProperties(includeProperties);
             return result.FirstOrDefault(filter);
         }
 
@@ -106,7 +102,7 @@ namespace Persistence.KnnProject.Repositories
             {
                 result = result.Include(includeProperty);
             }
-            return result;
+            return result.AsExpandable();
         }
     }
 }

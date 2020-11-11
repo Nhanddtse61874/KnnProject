@@ -21,22 +21,22 @@ namespace Business.KnnProject.Services
 
         void Delete(int ProductId);
 
-        IList<Product> GetAll(int? pageIndex, int? pageSize);
+        void AvarageStar(Product product);
+
+        IList<Product> GetByProductCodes(IList<string> productCodes);
+
+        IList<Product> GetAll(string sort,int? pageIndex, int? pageSize);
 
         IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId, int? pageIndex, int? pageSize);
+
     }
     public class ProductService : ServiceBase, IProductService
     {
         private readonly IRepository<Product> _repository;
 
-        private ITagService _tagService;
-        private IColorService _coloService;
-        private ISizeService _sizeService;
+       
         public ProductService()
         {
-            _tagService = new TagService();
-            _coloService = new ColorService();
-            _sizeService = new SizeService();
             _repository = _unitOfWork.Repository<Product>();
         }
         public void Create(Product newProduct)
@@ -54,7 +54,11 @@ namespace Business.KnnProject.Services
 
         public IList<Product> GetByCategory(int categoryId)
         {
-            var result = _repository.GetAll(x => x.CategoryId == categoryId);
+            var result = _repository.GetAll(x => x.CategoryId == categoryId,  x => x.OrderBy(y => y.Price), null,null, 
+                    x => x.ImageStorages,
+                    x => x.ColorProducts.Select(y => y.Color),
+                    x => x.TagProducts.Select(y => y.Tag),
+                    x => x.SizeProducts.Select(y => y.Size));
             return result;
         }
 
@@ -63,7 +67,9 @@ namespace Business.KnnProject.Services
             var result = _repository.GetById(productId, x => x.ImageStorages,
                     x => x.ColorProducts.Select(y => y.Color),
                     x => x.TagProducts.Select(y => y.Tag),
-                    x => x.SizeProducts.Select(y => y.Size));
+                    x => x.SizeProducts.Select(y => y.Size),
+                    x => x.Reviews);
+             AvarageStar(result);
             return result;
         }
 
@@ -72,16 +78,58 @@ namespace Business.KnnProject.Services
             _repository.Update(modifiedProduct);
             _unitOfWork.Save();
         }
-        public IList<Product> GetAll(int? pageIndex, int? pageSize)
-        {
 
-            return _repository.GetAll(filter: null, orderBy: x => x.OrderBy(y => y.Id), 
+
+        public IList<Product> GetAll(string sort, int? pageIndex, int? pageSize)
+        {
+            var orderBy = SortString(sort);
+            
+            //var sortBy = sort.Split('.');
+
+            //Func<IQueryable<Product>, IOrderedQueryable<Product>> orderBy = null;
+            //if (sortBy[0] == "createdate" && sortBy[1] == "desc")
+            //{
+            //    //place category = date
+            //    orderBy = x => x.OrderByDescending(y => y.CreatedDate);
+            //}
+            //else if (sortBy[0] == "name" && sortBy[1] == "desc")
+            //{
+            //    orderBy = x => x.OrderByDescending(y => y.Name);
+            //}
+            //else if (sortBy[0] == "price" && sortBy[1] == "desc")
+            //{
+            //    orderBy = x => x.OrderByDescending(y => y.Price);
+            //}
+            //else if (sortBy[0] == "createdate" && sortBy[1] == "asc")
+            //{
+            //    orderBy = x => x.OrderBy(y => y.CreatedDate);
+            //}
+            //else if (sortBy[0] == "name" && sortBy[1] == "asc")
+            //{
+            //    orderBy = x => x.OrderBy(y => y.Name);
+            //}
+            //else if (sortBy[0] == "price" && sortBy[1] == "asc")
+            //{
+            //    orderBy = x => x.OrderBy(y => y.Price);
+            //}else
+            //{
+            //    orderBy = x => x.OrderBy(y => y.Id);
+            //}
+            var result =  _repository.GetAll(filter: null, orderBy: orderBy, 
                 pageIndex: pageIndex, pageSize: pageSize,
                     x => x.ImageStorages,
                     x => x.ColorProducts.Select(y => y.Color),
                     x => x.TagProducts.Select(y => y.Tag),
-                    x => x.SizeProducts.Select(y => y.Size));
+                    x => x.SizeProducts.Select(y => y.Size),
+                    x => x.Reviews);
+            foreach (var item in result)
+            {
+                AvarageStar(item);
+            }
+            return result;
         }
+
+
         public IList<Product> GetByFilter(int? colorId, int? sizeId, int? tagId, int? categoryId, int? pageIndex, int? pageSize)
         {
             Expression<Func<Product, bool>> filter = x => true;
@@ -104,73 +152,87 @@ namespace Business.KnnProject.Services
             {
                 filter = filter.And(x => x.CategoryId == categoryId);
             }
-            return _repository.GetAll(filter, orderBy : x => x.OrderBy(y => y.Id), pageIndex : pageIndex, pageSize : pageSize,
+            var result = _repository.GetAll(filter, orderBy : x => x.OrderBy(y => y.CreatedDate), pageIndex : pageIndex, pageSize : pageSize,
                     x => x.ImageStorages,
                     x => x.ColorProducts.Select(y => y.Color),
                     x => x.TagProducts.Select(y => y.Tag),
-                    x => x.SizeProducts.Select(y => y.Size));
+                    x => x.SizeProducts.Select(y => y.Size),
+                    x => x.Reviews);
+
+            foreach (var item in result)
+            {
+                 AvarageStar(item);
+            }
+            return result;
         }
-        //public IList<Product> GetAll2()
-        //{
-        //    int? sizeId = null;
-
-        //    int? colorId = null;
-
-        //    Expression<Func<Product, bool>> filter = x => true;
-
-        //    if (sizeId.HasValue)
-        //    {
-        //        filter = filter.And(x => x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1));
-        //    }
-
-        //    if (sizeId.HasValue)
-        //    {
-        //        filter = filter.And(x => x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1));
-        //    }
-
-        //    if (true)
-        //    {
-        //        Expression<Func<Product, bool>> filterByColor = x => true;
-        //        if (color == red)
-        //        {
-        //            filterByColor = filterByColor.Or(x => x.ColorProducts.Colro == red);
-        //        }
-        //        if (color == blue)
-        //        {
-        //            filterByColor = filterByColor.Or(x => x.ColorProducts.Colro == blue);
-        //        }
-        //        filter = filter.And(filterByColor);
-        //    }
-
-        //    return _repository.GetAll(
-        //       filter, includeProperties: x => x.ColorProducts);
 
 
-        //if (sizeId.HasValue)
-        //{
-        //    return _repository.GetAll(
-        //    filter: x => x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1),
-        //    includeProperties: x => x.ColorProducts);
-        //}
-        //else if (colorId.HasValue)
-        //{
-        //    return _repository.GetAll(
-        //    filter: x => x.ColorProducts.Select(y => y.ColorId).Contains(colorId ?? -1),
-        //    includeProperties: x => x.ColorProducts);
-        //}
-        //else if (colorId.HasValue && sizeId.HasValue)
-        //{
-        //    return _repository.GetAll(
-        //   filter: x => x.ColorProducts.Select(y => y.ColorId).Contains(colorId ?? -1)
-        //            && x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1),
-        //   includeProperties: x => x.ColorProducts);
-        //}
-        //var result = _repository.GetAll(
-        //    filter: x => x.SizeProducts.Select(y => y.SizeId).Contains(sizeId ?? -1)
-        //              && x.ColorProducts.Select(y => y.ColorId).Contains(colorId ?? -1),
-        //    includeProperties: x => x.ColorProducts);
+       public void AvarageStar(Product product)
+        {
+            var previews = product.Reviews.Select(x => x.Star);
+            double starTotal = 0;
+            foreach (var item in previews)
+            {
+                starTotal = starTotal + item;
+            }
+            var count = previews.Count();
+            product.Star =  Math.Round((starTotal / count));
+        }
 
-        //return result;
-        //}
+
+        private Func<IQueryable<Product>, IOrderedQueryable<Product>> SortString(string sort)
+        {
+            var sortBy = sort.Split('.');
+
+            Func<IQueryable<Product>, IOrderedQueryable<Product>> orderBy = null;
+            if (sortBy[0] == "createdate" && sortBy[1] == "desc")
+            {
+                //place category = date
+                orderBy = x => x.OrderByDescending(y => y.CreatedDate);
+            }
+            else if (sortBy[0] == "name" && sortBy[1] == "desc")
+            {
+                orderBy = x => x.OrderByDescending(y => y.Name);
+            }
+            else if (sortBy[0] == "price" && sortBy[1] == "desc")
+            {
+                orderBy = x => x.OrderByDescending(y => y.Price);
+            }
+            else if (sortBy[0] == "createdate" && sortBy[1] == "asc")
+            {
+                orderBy = x => x.OrderBy(y => y.CreatedDate);
+            }
+            else if (sortBy[0] == "name" && sortBy[1] == "asc")
+            {
+                orderBy = x => x.OrderBy(y => y.Name);
+            }
+            else if (sortBy[0] == "price" && sortBy[1] == "asc")
+            {
+                orderBy = x => x.OrderBy(y => y.Price);
+            }
+            else
+            {
+                orderBy = x => x.OrderBy(y => y.Id);
+            }
+            return orderBy;
+        }
+
+        public IList<Product> GetByProductCodes(IList<string> productCodes)
+        {
+            var result = new List<Product>();
+
+            foreach (var item in productCodes)
+            {
+                result.Add(_repository.Get(x => x.Code == item, 
+                    x => x.ImageStorages,
+                    x => x.ColorProducts.Select(y => y.Color),
+                    x => x.TagProducts.Select(y => y.Tag),
+                    x => x.SizeProducts.Select(y => y.Size),
+                    x => x.Reviews));
+            }
+            return result.Distinct().ToList();
+        }
+
+       
     }
 }

@@ -11,6 +11,7 @@ namespace KnnProject.ViewModels
         public int Quantity { get; set; }
 
         public double TotalLine { get; set; }
+
     }
 
     public class CreateOrderDetailViewModel

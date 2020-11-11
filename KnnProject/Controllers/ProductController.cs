@@ -22,15 +22,19 @@ namespace KnnProject.Controllers
             _productService = new ProductService();
         }
 
-       
+
         [Route]
         [HttpGet]//Get all products 
-        public IHttpActionResult Get(int? pageIndex, int? pageSize)
+        public IHttpActionResult Get(string sort, int? pageIndex, int? pageSize)
         {
+
+            //string sort format "property.desc"
             string route = "api/product-management?pageIndex={0}&pageSize={1}";
-            //_productService.Count
-            
-            var result = _mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetAll(pageIndex, pageSize));
+            //////_productService.Count
+
+           
+
+            var result = _mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetAll(sort,pageIndex, pageSize));
             int? totalPages = result.Count()/pageSize;
             var paginationHeader = new
             {
@@ -148,6 +152,22 @@ namespace KnnProject.Controllers
         {
             _productService.Delete(id);
             return Ok();
+        }
+
+        [HttpGet][Route("{categoryId}")]
+        public IHttpActionResult GetByCategory(int categoryId)
+        {
+            var result = _mapper.Map<IEnumerable<ProductViewModel>>(_productService.GetByCategory(categoryId));
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("productId")]
+        public IHttpActionResult GetById(int productId)
+        {
+            var product = _productService.GetById(productId);
+            
+            return Ok(_mapper.Map<ProductViewModel>(product));
         }
         
     }

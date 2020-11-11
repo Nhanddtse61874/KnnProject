@@ -2,6 +2,7 @@
 using KnnProject.ViewModels;
 using Persistence.KnnProject.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace KnnProject.Controllers
@@ -10,10 +11,12 @@ namespace KnnProject.Controllers
     public class UserController : ApiControllerBase
     {
         private readonly IUserService _service;
+        private readonly IOrderService _orderService;
 
         public UserController()
         {
-            _service = new UserService(); 
+            _service = new UserService();
+            _orderService = new OrderService();
         }
 
 
@@ -34,15 +37,21 @@ namespace KnnProject.Controllers
         //get all users have the same rank 
         [Route("{rankId}/ranks")]
         [HttpGet]
-        public IHttpActionResult Get(int rankId, int? pageIndex, int? pageSize)
-            => Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.GetByRank(rankId)));
+        public IHttpActionResult Get(int rankId)
+        {
+            return Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.GetByRank(rankId)));
+
+        }
 
 
         //get all users have the same role
         [Route("{roleId}/roles")]
         [HttpGet]
-        public IHttpActionResult GetByUser(int roleId, int? pageIndex, int? pageSize)
-            => Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.GetByRank(roleId)));
+        public IHttpActionResult GetByUser(int roleId)
+        {
+
+            return Ok(_mapper.Map<IEnumerable<UserViewModel>>(_service.GetByRole(roleId)));
+        }
 
 
         //create a user 
@@ -61,7 +70,7 @@ namespace KnnProject.Controllers
 
 
         //update a user 
-        [Route("{id}")]
+        [Route]
         [HttpPut]
         public IHttpActionResult Put(UpdateUserViewModel modifiedModel)
         {

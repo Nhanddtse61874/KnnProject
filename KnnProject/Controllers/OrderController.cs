@@ -30,8 +30,8 @@ namespace KnnProject.Controllers
         public IHttpActionResult GetByUser(int userId)
         {
             var result = _service.GetByUser(userId);
-            _mapper.Map<IEnumerable<OrderViewModel>>(result);
-            return Ok(result);
+            
+            return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(result));
         }
 
 

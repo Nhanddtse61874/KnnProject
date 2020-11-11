@@ -13,7 +13,6 @@ namespace KnnProject.ViewModels
 
         public int Point { get; set; }
 
-        public ICollection<User> Users { get; set; }
     }
 
     public class CreateRankViewModel{

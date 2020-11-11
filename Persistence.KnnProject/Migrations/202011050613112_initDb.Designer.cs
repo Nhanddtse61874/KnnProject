@@ -13,7 +13,7 @@ namespace Persistence.KnnProject.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202010170256087_initDb"; }
+            get { return "202011050613112_initDb"; }
         }
         
         string IMigrationMetadata.Source

@@ -1,16 +1,12 @@
 ﻿using Persistence.KnnProject.Models;
 using Persistence.KnnProject.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Business.KnnProject.Services
 {
     public interface ILoginService
     {
-        User Check(LoginService.LoginModel loginMode);
+        User Check(LoginService.LoginModel loginModel);
     }
     public class LoginService : ServiceBase, ILoginService
     {
@@ -25,26 +21,20 @@ namespace Business.KnnProject.Services
 
         public User Check(LoginModel loginModel)
         {
-            
-
-            var user = _userRepo.Get(x => x.UserName == loginModel.UserName);
-            
-           
-            {
-                if (user.PassWord == loginModel.PassWord)
-                {
-                    return user;
-                }
-            }
-            return null;
-
+            var user = _userRepo.Get(x => x.UserName == loginModel.UserName
+                    && x.PassWord == loginModel.Password);
+            return user;   
         }
 
         public class LoginModel
         {
+            [Required]
             public string UserName { get; set; }
 
-            public string PassWord { get; set; }
+            [Required]
+            public string Password { get; set; }
+
+            
         }
 
     }

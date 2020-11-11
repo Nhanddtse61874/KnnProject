@@ -1,14 +1,17 @@
 ﻿using Persistence.KnnProject.Models;
 using Persistence.KnnProject.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.KnnProject.Services
 {
     public interface IOrderDetailService
     {
         IList<OrderDetail> GetByOrder(int orderId);
+        IList<OrderDetail> GetByOrders(int[] orderIds);
 
         IList<OrderDetail> GetByProduct(int productId);
+
 
         void Create(OrderDetail newOderDetail);
 
@@ -37,7 +40,13 @@ namespace Business.KnnProject.Services
         }
 
         public IList<OrderDetail> GetByOrder(int orderId)
-            => _repository.GetAll(x => x.OrderId == orderId);
+            => _repository.GetAll(filter : x => x.OrderId == orderId);
+
+        public IList<OrderDetail> GetByOrders(int[] orderIds)
+        {
+            return _repository.GetAll(x => orderIds.Contains(x.OrderId));
+        }
+            
         public IList<OrderDetail> GetByProduct(int productId)
             => _repository.GetAll(x => x.ProductId == productId);    
         public void Update(OrderDetail modifiedOrderDetail)

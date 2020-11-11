@@ -24,6 +24,12 @@ namespace Persistence.KnnProject.Models.Config
 
             Property(x => x.CreatedDate).IsRequired();
 
+            Property(x => x.CurrentPrice).IsRequired();
+
+            Property(x => x.Star).IsRequired();
+
+            Property(x => x.Code).IsRequired().HasMaxLength(255);
+
         HasMany(x => x.ImageStorages)
                 .WithRequired(x => x.Product)
                 .HasForeignKey(x => x.ProductId);
@@ -41,6 +47,9 @@ namespace Persistence.KnnProject.Models.Config
                 .HasForeignKey(x => x.ProductId);
 
             HasMany(x => x.SizeProducts)
+                .WithRequired(x => x.Product)
+                .HasForeignKey(x => x.ProductId);
+            HasMany(x => x.Reviews)
                 .WithRequired(x => x.Product)
                 .HasForeignKey(x => x.ProductId);
         }

@@ -2,6 +2,7 @@
 using Persistence.KnnProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.KnnProject.Services
 {
@@ -48,14 +49,11 @@ namespace Business.KnnProject.Services
 
         public IList<Order> GetByUser(int userId)
         {
-           var result = _repository.GetAll(x => x.UserId == userId);
-            foreach (var item in result)
-            {
-                var sub = _oderDetail.GetByOrder(item.Id);
-                item.Orderdetails = sub;
-            }
+           var result = _repository.GetAll(filter : x => x.UserId == userId , includeProperties :  x => x.Orderdetails);
+           
             return result;
         }
+
 
         public void Update(Order modifiedOrder)
         {

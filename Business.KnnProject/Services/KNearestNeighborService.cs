@@ -6,15 +6,19 @@ namespace Business.KnnProject.Services
 {
     public interface IKNearestNeighborService
     {
-        IList<Product> Suggest(int userId);
 
-        IList<int> listDictin(IList<int> list1, IList<int> list2);
-
-        IList<Order> GetOrderByUser(User user);
+        IList<Order> GetOrderByUser(int userId);
 
         IList<OrderDetail> GetOrderDetailByOrder(IList<Order> orders);
 
-        IList<int> GetProductByOrderDetail(IList<OrderDetail> orderdetails);
+        IList<ProductRecommence> GetProductCodeByOrderDetail(IList<OrderDetail> orderdetails);
+
+        IList<List<ProductRecommence>> GetAllUsersAndAllProductCodesToRecommend(int userId);
+
+        IList<ProductRecommence> GetAllProductCodeByUserIdToRecommend(int userId);
+
+        Recommence GetRecommenceData(int userId);
+
     }
 
     public class KNearestNeighborService : ServiceBase, IKNearestNeighborService
@@ -33,56 +37,47 @@ namespace Business.KnnProject.Services
 
         //return a list of products for using to suggest for customer who is logging
         //K nearest neighbor
-        public IList<Product> Suggest(int userId)
-        {
-            
-            User user = _userService.GetById(userId);
-            var listUser = _userService.GetByRank(user.RankId);
-            var listProductOfUser = GetProductByOrderDetail(GetOrderDetailByOrder(GetOrderByUser(user)));
-            IEnumerable<int> result = new List<int>();
 
-            foreach (var item3 in listUser)
-            {
-                var listProductAllUser = GetProductByOrderDetail(GetOrderDetailByOrder(GetOrderByUser(item3)));
-                result = result.Concat(listDictin(listProductOfUser, listProductAllUser)).Distinct();
-            }
-            IList<Product> products = new List<Product>();
-            foreach (var item in result)
-            {
-                products.Add(_productService.GetById(item));
-            }
-            return products;
-
-        }
-        //Removes the duplicate elements between 2 lists when user is neighbor
-        public IList<int> listDictin(IList<int> list1, IList<int> list2)
+        public IList<ProductRecommence> GetAllProductCodeByUserIdToRecommend(int userId)
         {
-            IList<int> result = new List<int>();
-            int count = 0;
-            foreach (var item in list1)
-            {
-                if (list2.Contains(item))
-                {
-                    count++;
-                }
-                if (count >= k)
-                {
-                    foreach (var item2 in list2)
-                    {
-                        if (!list2.Contains(item))
-                        {
-                            result.Add(item);
-                        }
-                    }
-                }
-            }
+            var result = GetProductCodeByOrderDetail(GetOrderDetailByOrder(GetOrderByUser(userId)));
+
             return result;
         }
 
-        //Get List<Order> from User
-        public IList<Order> GetOrderByUser(User user)
+        //get all products of logging user!!
+        
+
+        public IList<List<ProductRecommence>> GetAllUsersAndAllProductCodesToRecommend(int userId)
         {
-            var result = _orderService.GetByUser(user.Id);
+            var user = _userService.GetById(userId);
+            var listUser = _userService.GetByRank(user.RankId);
+               
+            IList<List<ProductRecommence>> listproducts = new List<List<ProductRecommence>>();
+            
+            foreach (var item in listUser)
+            {
+                if(item != user) { 
+                var list = GetAllProductCodeByUserIdToRecommend(item.Id);
+                listproducts.Add(list.ToList());
+                }
+            }
+            return listproducts;
+        }
+
+        public Recommence GetRecommenceData(int userId)
+        {
+            var productCodesOfUserLogging = GetAllProductCodeByUserIdToRecommend(userId);
+
+            var listProductData = GetAllUsersAndAllProductCodesToRecommend(userId);
+
+            return new Recommence(userId, productCodesOfUserLogging, listProductData);
+        }
+
+        //Get List<Order> from User
+        public IList<Order> GetOrderByUser(int userId)
+        {
+            var result = _orderService.GetByUser(userId);
             return result;
         }
 
@@ -99,12 +94,53 @@ namespace Business.KnnProject.Services
         }
 
         //Get list<productId> to find the neighbors
-        public IList<int> GetProductByOrderDetail(IList<OrderDetail> orderdetails)
+        public IList<ProductRecommence> GetProductCodeByOrderDetail(IList<OrderDetail> orderdetails)
         {
-            var result = orderdetails.Select(x => x.ProductId);
-            return result.ToList();
+            IList<ProductRecommence> products = new List<ProductRecommence>();
+
+            foreach (var item in orderdetails)
+            {
+                var x =_productService.GetById(item.ProductId);
+                products.Add(new ProductRecommence(x.Code, x.CategoryId, x.CurrentPrice));
+            }
+            return products;
+        }
+        
+
+    }
+    
+    
+    public class Recommence : BaseModel
+    {
+        public Recommence(int userid, IList<ProductRecommence> productCodesOfUserLogging, IList<List<ProductRecommence>> listDataProductCodes)
+        {
+            UserId = userid;
+
+            ProductCodeOfUserLogging = productCodesOfUserLogging;
+
+            ListDataProductCodes = listDataProductCodes;
         }
 
+        public int UserId { get; set; }
+
+        public ICollection<ProductRecommence> ProductCodeOfUserLogging { get; set; }
+
+        public IList<List<ProductRecommence>> ListDataProductCodes { get; set; }
+    }
+
+    public class ProductRecommence
+    {
+        public ProductRecommence(string code, int categoryId,  double price)
+        {
+            Code = code;
+            CategoryId = categoryId;
+            Price = price;
+        }
+
+        public double Price { get; set; }
+        public string Code { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }
 
