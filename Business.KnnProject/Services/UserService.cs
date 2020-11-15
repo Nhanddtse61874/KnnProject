@@ -71,7 +71,11 @@ namespace Business.KnnProject.Services
         public User GetById(int id)
         {
             var result = _repo.GetById(id, includeProperties: x => x.Orders);
-            result.Orders = _orderService.GetByUser(result.Id);
+            //check result null
+            if(result != null)
+            {
+                result.Orders = _orderService.GetByUser(result.Id);
+            }
             return result;
         }
         public void Update(User modifiedUser)

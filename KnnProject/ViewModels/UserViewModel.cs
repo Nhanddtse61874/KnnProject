@@ -57,7 +57,6 @@ namespace KnnProject.ViewModels
         [Required]
         public double Point { get; set; }
 
-        public IEnumerable<Order> Orders { get; set; }
 
     }
 

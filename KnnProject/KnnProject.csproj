@@ -235,6 +235,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\00411005-9a21-484f-86ee-d9435293945a.sql" />
+    <Content Include="Images\7d5a7bbc-ed45-4968-85cc-5b922c0fe753.jpg" />
+    <Content Include="Images\ADICOLOR.PNG" />
+    <Content Include="Images\ADICROSS.PNG" />
+    <Content Include="Images\ADICROSSNu.PNG" />
+    <Content Include="Images\ADILETTE.PNG" />
+    <Content Include="Images\ADIPURE.PNG" />
+    <Content Include="Images\ALPHASKIN.PNG" />
+    <Content Include="Images\ASK Q1 BRA.PNG" />
+    <Content Include="Images\BELIEVE THIS HACK.PNG" />
+    <Content Include="Images\BELLISTA.PNG" />
+    <Content Include="Images\BOLD BRND.PNG" />
+    <Content Include="Images\CONTINENTAL.PNG" />
+    <Content Include="Images\FALCON.PNG" />
+    <Content Include="Images\HCM CITY LINES.PNG" />
+    <Content Include="Images\HYPERSLEEK.PNG" />
+    <Content Include="Images\NITE JOGGER.PNG" />
+    <Content Include="Images\NMD R1 V2.PNG" />
+    <Content Include="Images\OWN RUN.PNG" />
+    <Content Include="Images\POLO M.PNG" />
+    <Content Include="Images\POLO SS.PNG" />
+    <Content Include="Images\POWER5.PNG" />
+    <Content Include="Images\POWER6.PNG" />
+    <Content Include="Images\SHORT ALPHASKIN.PNG" />
+    <Content Include="Images\SHORT OWN RUN.PNG" />
+    <Content Include="Images\STR DRESS.PNG" />
+    <Content Include="Images\SUPERSTAR.PNG" />
+    <Content Include="Images\TEE DRESS.PNG" />
+    <Content Include="Images\ULTIMATE.PNG" />
+    <Content Include="Images\YEEZYBOOT 350 V2.PNG" />
+    <Content Include="Images\ZX TORSION.PNG" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -284,7 +315,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Business.KnnProject\Business.KnnProject.csproj">

@@ -56,7 +56,11 @@ namespace Persistence.KnnProject.Repositories
         public void Delete(int id)
         {
             T entityToDelete = _dbSet.Find(id);
-            _dbSet.Remove(entityToDelete);
+            if (entityToDelete != null)
+            {
+                _dbSet.Remove(entityToDelete);
+            }
+           
         }
 
         public IList<T> GetAll(Expression<Func<T, bool>> filter = null, 

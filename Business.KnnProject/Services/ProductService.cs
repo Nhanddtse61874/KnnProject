@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Business.KnnProject.Services
 {
     public interface IProductService
@@ -83,38 +84,39 @@ namespace Business.KnnProject.Services
         public IList<Product> GetAll(string sort, int? pageIndex, int? pageSize)
         {
             var orderBy = SortString(sort);
-            
-            //var sortBy = sort.Split('.');
+
+            var sortBy = sort.Split('.');
 
             //Func<IQueryable<Product>, IOrderedQueryable<Product>> orderBy = null;
-            //if (sortBy[0] == "createdate" && sortBy[1] == "desc")
-            //{
-            //    //place category = date
-            //    orderBy = x => x.OrderByDescending(y => y.CreatedDate);
-            //}
-            //else if (sortBy[0] == "name" && sortBy[1] == "desc")
-            //{
-            //    orderBy = x => x.OrderByDescending(y => y.Name);
-            //}
-            //else if (sortBy[0] == "price" && sortBy[1] == "desc")
-            //{
-            //    orderBy = x => x.OrderByDescending(y => y.Price);
-            //}
-            //else if (sortBy[0] == "createdate" && sortBy[1] == "asc")
-            //{
-            //    orderBy = x => x.OrderBy(y => y.CreatedDate);
-            //}
-            //else if (sortBy[0] == "name" && sortBy[1] == "asc")
-            //{
-            //    orderBy = x => x.OrderBy(y => y.Name);
-            //}
-            //else if (sortBy[0] == "price" && sortBy[1] == "asc")
-            //{
-            //    orderBy = x => x.OrderBy(y => y.Price);
-            //}else
-            //{
-            //    orderBy = x => x.OrderBy(y => y.Id);
-            //}
+            if (sortBy[0] == "createdate" && sortBy[1] == "desc")
+            {
+                //place category = date
+                orderBy = x => x.OrderByDescending(y => y.CreatedDate);
+            }
+            else if (sortBy[0] == "name" && sortBy[1] == "desc")
+            {
+                orderBy = x => x.OrderByDescending(y => y.Name);
+            }
+            else if (sortBy[0] == "price" && sortBy[1] == "desc")
+            {
+                orderBy = x => x.OrderByDescending(y => y.Price);
+            }
+            else if (sortBy[0] == "createdate" && sortBy[1] == "asc")
+            {
+                orderBy = x => x.OrderBy(y => y.CreatedDate);
+            }
+            else if (sortBy[0] == "name" && sortBy[1] == "asc")
+            {
+                orderBy = x => x.OrderBy(y => y.Name);
+            }
+            else if (sortBy[0] == "price" && sortBy[1] == "asc")
+            {
+                orderBy = x => x.OrderBy(y => y.Price);
+            }
+            else
+            {
+                orderBy = x => x.OrderBy(y => y.Id);
+            }
             var result =  _repository.GetAll(filter: null, orderBy: orderBy, 
                 pageIndex: pageIndex, pageSize: pageSize,
                     x => x.ImageStorages,
@@ -220,17 +222,24 @@ namespace Business.KnnProject.Services
         public IList<Product> GetByProductCodes(IList<string> productCodes)
         {
             var result = new List<Product>();
-
-            foreach (var item in productCodes)
+            if(productCodes.Count != 0)
             {
-                result.Add(_repository.Get(x => x.Code == item, 
-                    x => x.ImageStorages,
-                    x => x.ColorProducts.Select(y => y.Color),
-                    x => x.TagProducts.Select(y => y.Tag),
-                    x => x.SizeProducts.Select(y => y.Size),
-                    x => x.Reviews));
+                foreach (var item in productCodes)
+                {
+                    result.Add(_repository.Get(x => x.Code == item,
+                        x => x.ImageStorages,
+                        x => x.ColorProducts.Select(y => y.Color),
+                        x => x.TagProducts.Select(y => y.Tag),
+                        x => x.SizeProducts.Select(y => y.Size),
+                        x => x.Reviews));
+                }
+                return result.Distinct().ToList();
+            }else
+            {
+                return null;
             }
-            return result.Distinct().ToList();
+            
+            
         }
 
        

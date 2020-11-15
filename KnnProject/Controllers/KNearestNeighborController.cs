@@ -27,7 +27,6 @@ namespace KnnProject.Controllers
             
             IList<List<ProductRecommence>> listDataOfProductCode = _kService.GetAllUsersAndAllProductCodesToRecommend(userId);
             var result = new Recommence(userId, productCodesOfUserLogging, listDataOfProductCode);
-
             return Ok(System.Text.Json.JsonSerializer.Serialize(result));
         }
 
@@ -37,12 +36,15 @@ namespace KnnProject.Controllers
         {
             
             var productCodes = data.FinalResult;
-            if (productCodes == null || productCodes.Count == 0)
+            if (productCodes.Count != 0)
             {
-                return Ok();
+                var result = _product.GetByProductCodes(productCodes);
+                return Ok(_mapper.Map<IEnumerable<ProductViewModel>>(result));
             }
-            var result = _product.GetByProductCodes(productCodes);
-            return Ok(_mapper.Map<IEnumerable<ProductViewModel>>(result));
+            else
+            {
+                return Ok(_mapper.Map<IEnumerable<ProductViewModel>>(_kService.GetBestSellerProducts()));
+            }
         }
     }
 

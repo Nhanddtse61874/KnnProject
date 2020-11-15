@@ -19,6 +19,10 @@ namespace Business.KnnProject.Services
 
         Recommence GetRecommenceData(int userId);
 
+        IList<Product> GetBestSellerProducts();
+
+        IList<Product> GetProductByOrderDetail(IList<OrderDetail> orderdetails);
+
     }
 
     public class KNearestNeighborService : ServiceBase, IKNearestNeighborService
@@ -45,23 +49,49 @@ namespace Business.KnnProject.Services
             return result;
         }
 
+        public IList<Product> GetBestSellerProducts()
+        {
+            IEnumerable<Product> products = new List<Product>();
+            var listuser = _userService.Get();
+            foreach (var item in listuser)
+            {
+                var result = GetProductByOrderDetail(GetOrderDetailByOrder(GetOrderByUser(item.Id)));
+                products = products.Concat(result);
+            }
+            var list = from Product in products
+                       group Product by Product into groupProduct
+                       select new
+                       {
+                           product = groupProduct.Key,
+                           count = groupProduct.Count()
+                       };
+            var listOrderBySeller = list.OrderByDescending(x => x.count).Select(x => x.product);
+            
+            return listOrderBySeller.ToList();
+        }
+
         //get all products of logging user!!
         
 
         public IList<List<ProductRecommence>> GetAllUsersAndAllProductCodesToRecommend(int userId)
         {
-            var user = _userService.GetById(userId);
-            var listUser = _userService.GetByRank(user.RankId);
-               
             IList<List<ProductRecommence>> listproducts = new List<List<ProductRecommence>>();
-            
-            foreach (var item in listUser)
-            {
-                if(item != user) { 
-                var list = GetAllProductCodeByUserIdToRecommend(item.Id);
-                listproducts.Add(list.ToList());
+            var user = _userService.GetById(userId);
+            if(user != null) {
+                var listUser = _userService.GetByRank(user.RankId);
+                foreach (var item in listUser)
+                {
+                    if (item != user)
+                    {
+                        var list = GetAllProductCodeByUserIdToRecommend(item.Id);
+                        listproducts.Add(list.ToList());
+                    }
                 }
+            }else
+            {
+                return null;
             }
+            
             return listproducts;
         }
 
@@ -105,7 +135,19 @@ namespace Business.KnnProject.Services
             }
             return products;
         }
-        
+
+        public IList<Product> GetProductByOrderDetail(IList<OrderDetail> orderdetails)
+        {
+            IList<Product> products = new List<Product>();
+
+            foreach (var item in orderdetails)
+            {
+                var product = _productService.GetById(item.ProductId);
+                products.Add(product);
+            }
+            return products;
+        }
+
 
     }
     
@@ -142,6 +184,8 @@ namespace Business.KnnProject.Services
 
         public int CategoryId { get; set; }
     }
+
+
 }
 
 

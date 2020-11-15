@@ -24,7 +24,7 @@ namespace KnnProject.ViewModels
         public string Description { get; set; }
 
         public string Code { get; set; }
-        public double CurrenPrice { get; set; }
+        public double CurrentPrice { get; set; }
         public int CategoryId { get; set; }
 
         public bool Status { get; set; }
