@@ -50,6 +50,15 @@
     <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.10.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Azure.Core, Version=1.6.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.6.0\lib\net461\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Common, Version=12.6.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Storage.Common.12.6.0\lib\netstandard2.0\Azure.Storage.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Queues, Version=12.5.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Storage.Queues.12.5.0\lib\netstandard2.0\Azure.Storage.Queues.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -147,6 +156,9 @@
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.0\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -243,29 +255,29 @@
     <Content Include="Images\ADILETTE.PNG" />
     <Content Include="Images\ADIPURE.PNG" />
     <Content Include="Images\ALPHASKIN.PNG" />
-    <Content Include="Images\ASK Q1 BRA.PNG" />
-    <Content Include="Images\BELIEVE THIS HACK.PNG" />
+    <Content Include="Images\ASKQ1BRA.PNG" />
+    <Content Include="Images\BELIEVETHISHACK.PNG" />
     <Content Include="Images\BELLISTA.PNG" />
-    <Content Include="Images\BOLD BRND.PNG" />
+    <Content Include="Images\BOLDBRND.PNG" />
     <Content Include="Images\CONTINENTAL.PNG" />
     <Content Include="Images\FALCON.PNG" />
-    <Content Include="Images\HCM CITY LINES.PNG" />
+    <Content Include="Images\HCMCITYLINES.PNG" />
     <Content Include="Images\HYPERSLEEK.PNG" />
-    <Content Include="Images\NITE JOGGER.PNG" />
-    <Content Include="Images\NMD R1 V2.PNG" />
-    <Content Include="Images\OWN RUN.PNG" />
-    <Content Include="Images\POLO M.PNG" />
-    <Content Include="Images\POLO SS.PNG" />
+    <Content Include="Images\NITEJOGGER.PNG" />
+    <Content Include="Images\NMDR1V2.PNG" />
+    <Content Include="Images\OWNRUN.PNG" />
+    <Content Include="Images\POLOM.PNG" />
+    <Content Include="Images\POLOSS.PNG" />
     <Content Include="Images\POWER5.PNG" />
     <Content Include="Images\POWER6.PNG" />
-    <Content Include="Images\SHORT ALPHASKIN.PNG" />
-    <Content Include="Images\SHORT OWN RUN.PNG" />
-    <Content Include="Images\STR DRESS.PNG" />
+    <Content Include="Images\SHORTALPHASKIN.PNG" />
+    <Content Include="Images\SHORTOWNRUN.PNG" />
+    <Content Include="Images\STRDRESS.PNG" />
     <Content Include="Images\SUPERSTAR.PNG" />
-    <Content Include="Images\TEE DRESS.PNG" />
+    <Content Include="Images\TEEDRESS.PNG" />
     <Content Include="Images\ULTIMATE.PNG" />
-    <Content Include="Images\YEEZYBOOT 350 V2.PNG" />
-    <Content Include="Images\ZX TORSION.PNG" />
+    <Content Include="Images\YEEZYBOOT350V2.PNG" />
+    <Content Include="Images\ZXTORSION.PNG" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

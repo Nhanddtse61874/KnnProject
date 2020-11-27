@@ -68,6 +68,13 @@ namespace KnnProject.Controllers
             return Ok();
         }
 
+        [Route("{userId}/{totalPrice}")]
+        [HttpPost]
+        public IHttpActionResult UpdatePoint(int userId, double totalPrice)
+        {
+            _service.UpdatePoint(userId, totalPrice);
+            return Ok();
+        }
 
         //update a user 
         [Route]

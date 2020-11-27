@@ -20,6 +20,8 @@ namespace Business.KnnProject.Services
         void Delete(int userId);
 
         IList<User> GetByRole(int roleId);
+
+        void UpdatePoint(int userId, double totalPrice);
     }
     public class UserService : ServiceBase, IUserService
     {
@@ -81,6 +83,27 @@ namespace Business.KnnProject.Services
         public void Update(User modifiedUser)
         {
             _repo.Update(modifiedUser);
+            _unitOfWork.Save();
+        }
+
+        public void UpdatePoint(int userId, double totalPrice)
+        {
+            var user = _repo.GetById(userId);
+            var point  = user.Point + totalPrice * 5;
+            if(point < 10000 && point > 5000)
+            {
+                user.RankId = 1;
+            }
+            if(point > 10000 && point < 15000)
+            {
+                user.RankId = 2;
+            }
+            if(point > 15000)
+            {
+                user.RankId = 3;
+            }
+            user.Point = point;
+            _repo.Update(user);
             _unitOfWork.Save();
         }
     }

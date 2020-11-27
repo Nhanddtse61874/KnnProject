@@ -8,7 +8,7 @@ namespace KnnProject.ViewModels
     {
         public int UserId { get; set; }
 
-        public double TotolPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         public string AddressShipping { get; set; }
 
@@ -25,7 +25,7 @@ namespace KnnProject.ViewModels
 
 
         [Required]
-        public double TotolPrice { get; set; }
+        public double TotalPrice { get; set; }
 
 
         [Required][MaxLength(225)]
@@ -53,7 +53,7 @@ namespace KnnProject.ViewModels
 
 
         [Required]
-        public double TotolPrice { get; set; }
+        public double TotalPrice { get; set; }
 
 
         [Required]
